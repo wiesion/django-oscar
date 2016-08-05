@@ -29,13 +29,13 @@ class IndexViewTests(WebTestCase):
         self.inactive_users_ids = user_queryset.filter(is_active=False).values_list('id', flat=True)
 
     def test_user_list_view(self):
-        response = self.get(reverse('dashboard:users-index'))
+        response = self.get(reverse('oscar:dashboard:users-index'))
         self.assertInContext(response, 'users')
 
     def test_make_active(self):
         params = {'action': 'make_active',
                   'selected_user': self.inactive_users_ids}
-        response = self.post(reverse('dashboard:users-index'), params=params)
+        response = self.post(reverse('oscar:dashboard:users-index'), params=params)
         ex_inactive = User.objects.get(id=self.inactive_users_ids[10])
         self.assertIsRedirect(response)
         self.assertTrue(ex_inactive.is_active)
@@ -43,7 +43,7 @@ class IndexViewTests(WebTestCase):
     def test_make_inactive(self):
         params = {'action': 'make_inactive',
                   'selected_user': self.active_users_ids}
-        response = self.post(reverse('dashboard:users-index'), params=params)
+        response = self.post(reverse('oscar:dashboard:users-index'), params=params)
         ex_active = User.objects.get(id=self.active_users_ids[10])
         self.assertIsRedirect(response)
         self.assertFalse(ex_active.is_active)
@@ -54,7 +54,7 @@ class DetailViewTests(WebTestCase):
 
     def test_user_detail_view(self):
         response = self.get(
-            reverse('dashboard:user-detail', kwargs={'pk': self.user.pk}))
+            reverse('oscar:dashboard:user-detail', kwargs={'pk': self.user.pk}))
         self.assertInContext(response, 'user')
         self.assertIsOk(response)
 
@@ -70,7 +70,7 @@ class TestDetailViewForStaffUser(WebTestCase):
     def test_password_reset_url_only_available_via_post(self):
         try:
             reset_url = reverse(
-                'dashboard:user-password-reset',
+                'oscar:dashboard:user-password-reset',
                 kwargs={'pk': self.customer.id}
             )
             self.get(reset_url)
@@ -79,7 +79,7 @@ class TestDetailViewForStaffUser(WebTestCase):
 
     def test_admin_can_reset_user_passwords(self):
         customer_page_url = reverse(
-            'dashboard:user-detail',
+            'oscar:dashboard:user-detail',
             kwargs={'pk': self.customer.id}
         )
         customer_page = self.get(customer_page_url)

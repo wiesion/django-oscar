@@ -17,7 +17,7 @@ class ReviewsDashboardTests(WebTestCase):
     is_staff = True
 
     def test_reviews_dashboard_is_accessible_to_staff(self):
-        url = reverse('dashboard:reviews-list')
+        url = reverse('oscar:dashboard:reviews-list')
         response = self.get(url)
         self.assertIsOk(response)
 
@@ -31,7 +31,7 @@ class ReviewsDashboardTests(WebTestCase):
 
         assert(ProductReview.objects.count() == 3)
 
-        list_page = self.get(reverse('dashboard:reviews-list'))
+        list_page = self.get(reverse('oscar:dashboard:reviews-list'))
         form = list_page.forms[1]
         form['selected_review'] = [3, 2]
         form.submit('update')
@@ -48,13 +48,13 @@ class ReviewsDashboardTests(WebTestCase):
         ProductReviewFactory(user=user2, status=0)
         ProductReviewFactory(user=user2, status=0)
 
-        url = reverse('dashboard:reviews-list') + '?name=peter'
+        url = reverse('oscar:dashboard:reviews-list') + '?name=peter'
         response = self.get(url)
 
         self.assertEqual(len(response.context['review_list']), 1)
         self.assertEqual(response.context['review_list'][0].user, user1)
 
-        url = reverse('dashboard:reviews-list') + '?name=lois+griffin'
+        url = reverse('oscar:dashboard:reviews-list') + '?name=lois+griffin'
         response = self.get(url)
 
         self.assertEqual(len(response.context['review_list']), 2)
@@ -62,7 +62,7 @@ class ReviewsDashboardTests(WebTestCase):
             self.assertEqual(review.user, user2)
 
     def test_filter_reviews_by_keyword(self):
-        url = reverse('dashboard:reviews-list')
+        url = reverse('oscar:dashboard:reviews-list')
 
         user1 = UserFactory()
         user2 = UserFactory()
@@ -105,7 +105,7 @@ class ReviewsDashboardTests(WebTestCase):
         review3.date_created = now - timedelta(days=10)
         review3.save()
 
-        url = reverse('dashboard:reviews-list')
+        url = reverse('oscar:dashboard:reviews-list')
         response = self.get(url, params={'date_from': n_days_ago(5)})
         self.assertQuerysetContains(response.context['review_list'],
                                     [review1, review2])
@@ -122,7 +122,7 @@ class ReviewsDashboardTests(WebTestCase):
                                     [review3])
 
     def test_filter_reviews_by_status(self):
-        url = reverse('dashboard:reviews-list')
+        url = reverse('oscar:dashboard:reviews-list')
 
         user1 = UserFactory()
         user2 = UserFactory()

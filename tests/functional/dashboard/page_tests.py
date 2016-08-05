@@ -18,11 +18,11 @@ class TestPageDashboard(WebTestCase):
         super(TestPageDashboard, self).setUp()
 
     def test_dashboard_index_is_for_staff_only(self):
-        response = self.get(reverse('dashboard:page-list'))
+        response = self.get(reverse('oscar:dashboard:page-list'))
         self.assertTrue('Password' not in response.content.decode('utf8'))
 
     def test_dashboard_page_list(self):
-        response = self.get(reverse('dashboard:page-list'))
+        response = self.get(reverse('oscar:dashboard:page-list'))
         objects = response.context[-1]['object_list']
 
         self.assertTrue(self.flatpage_1 in objects)
@@ -31,7 +31,7 @@ class TestPageDashboard(WebTestCase):
     def test_doesnt_allow_existing_pages_to_be_clobbered(self):
         self.assertEqual(FlatPage.objects.count(), 2)
 
-        page = self.get(reverse('dashboard:page-create'))
+        page = self.get(reverse('oscar:dashboard:page-create'))
         form = page.form
         form['title'] = 'test'
         form['url'] = '/dashboard/pages/'
@@ -42,7 +42,7 @@ class TestPageDashboard(WebTestCase):
         self.assertEqual(FlatPage.objects.count(), 2)
 
     def test_allows_page_to_be_created(self):
-        page = self.get(reverse('dashboard:page-create'))
+        page = self.get(reverse('oscar:dashboard:page-create'))
         form = page.form
         form['title'] = 'test'
         form['url'] = '/my-new-url/'
@@ -53,7 +53,7 @@ class TestPageDashboard(WebTestCase):
         self.assertEqual(FlatPage.objects.count(), 3)
 
     def test_dashboard_create_page_with_slugified_url(self):
-        page = self.get(reverse('dashboard:page-create'))
+        page = self.get(reverse('oscar:dashboard:page-create'))
         form = page.form
         form['title'] = 'test'
         form['content'] = 'my content here'
@@ -63,7 +63,7 @@ class TestPageDashboard(WebTestCase):
         self.assertEqual(FlatPage.objects.count(), 3)
 
     def test_dashboard_create_page_with_exisiting_url_does_not_work(self):
-        page = self.get(reverse('dashboard:page-create'))
+        page = self.get(reverse('oscar:dashboard:page-create'))
         form = page.form
         form['title'] = 'test'
         form['url'] = '/url1/'  # already exists
@@ -76,7 +76,7 @@ class TestPageDashboard(WebTestCase):
         self.assertEqual(FlatPage.objects.count(), 2)
 
     def test_dashboard_update_page_valid_url(self):
-        page = self.get(reverse('dashboard:page-update',
+        page = self.get(reverse('oscar:dashboard:page-update',
                                 kwargs={'pk': self.flatpage_1.pk}))
         form = page.form
         form['title'] = 'test'
@@ -93,7 +93,7 @@ class TestPageDashboard(WebTestCase):
         self.assertEqual(page.sites.count(), 1)
 
     def test_dashboard_update_page_invalid_url(self):
-        page = self.get(reverse('dashboard:page-update',
+        page = self.get(reverse('oscar:dashboard:page-update',
                                 kwargs={'pk': self.flatpage_1.pk}))
         form = page.form
         form['url'] = '/url2/'  # already exists
@@ -104,7 +104,7 @@ class TestPageDashboard(WebTestCase):
                          response.context['form'].errors['url'][0])
 
     def test_dashboard_delete_pages(self):
-        page = self.get(reverse('dashboard:page-list'))
+        page = self.get(reverse('oscar:dashboard:page-list'))
         delete_page = page.click(linkid="delete_page_%s" % self.flatpage_1.id)
         response = delete_page.form.submit()
 

@@ -12,7 +12,7 @@ class Application(object):
     app's views and permissions.
     """
     #: Namespace name
-    name = None
+    name = 'oscar'
 
     login_url = None
 

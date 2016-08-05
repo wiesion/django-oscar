@@ -17,7 +17,7 @@ class TestProductDetailView(WebTestCase):
         p = create_product()
         kwargs = {'product_slug': '1_wrong-but-valid-slug_1',
                   'pk': p.id}
-        wrong_url = reverse('catalogue:detail', kwargs=kwargs)
+        wrong_url = reverse('oscar:catalogue:detail', kwargs=kwargs)
 
         response = self.app.get(wrong_url)
         self.assertEqual(http_client.MOVED_PERMANENTLY, response.status_code)
@@ -27,13 +27,13 @@ class TestProductDetailView(WebTestCase):
         parent_product = create_product(structure='parent')
         kwargs = {'product_slug': parent_product.slug,
                   'pk': parent_product.id}
-        parent_product_url = reverse('catalogue:detail', kwargs=kwargs)
+        parent_product_url = reverse('oscar:catalogue:detail', kwargs=kwargs)
 
         child = create_product(
             title="Variant 1", structure='child', parent=parent_product)
         kwargs = {'product_slug': child.slug,
                   'pk': child.id}
-        child_url = reverse('catalogue:detail', kwargs=kwargs)
+        child_url = reverse('oscar:catalogue:detail', kwargs=kwargs)
 
         response = self.app.get(parent_product_url)
         self.assertEqual(http_client.OK, response.status_code)
@@ -46,14 +46,14 @@ class TestProductListView(WebTestCase):
 
     def test_shows_add_to_basket_button_for_available_product(self):
         product = create_product(num_in_stock=1)
-        page = self.app.get(reverse('catalogue:index'))
+        page = self.app.get(reverse('oscar:catalogue:index'))
         self.assertContains(page, product.title)
         self.assertContains(page, ugettext("Add to basket"))
 
     def test_shows_not_available_for_out_of_stock_product(self):
         product = create_product(num_in_stock=0)
 
-        page = self.app.get(reverse('catalogue:index'))
+        page = self.app.get(reverse('oscar:catalogue:index'))
 
         self.assertContains(page, product.title)
         self.assertContains(page, "Unavailable")
@@ -64,7 +64,7 @@ class TestProductListView(WebTestCase):
         for idx in range(0, int(1.5 * per_page)):
             create_product(title=title % idx)
 
-        page = self.app.get(reverse('catalogue:index'))
+        page = self.app.get(reverse('oscar:catalogue:index'))
 
         self.assertContains(page, "Page 1 of 2")
 
@@ -82,7 +82,7 @@ class TestProductCategoryView(WebTestCase):
     def test_enforces_canonical_url(self):
         kwargs = {'category_slug': '1_wrong-but-valid-slug_1',
                   'pk': self.category.pk}
-        wrong_url = reverse('catalogue:category', kwargs=kwargs)
+        wrong_url = reverse('oscar:catalogue:category', kwargs=kwargs)
 
         response = self.app.get(wrong_url)
         self.assertEqual(http_client.MOVED_PERMANENTLY, response.status_code)

@@ -73,7 +73,7 @@ class AccountRegistrationView(RegisterUserMixin, generic.FormView):
             request, *args, **kwargs)
 
     def get_logged_in_redirect(self):
-        return reverse('customer:summary')
+        return reverse('oscar:customer:summary')
 
     def get_form_kwargs(self):
         kwargs = super(AccountRegistrationView, self).get_form_kwargs()
@@ -185,7 +185,7 @@ class AccountAuthView(RegisterUserMixin, generic.TemplateView):
         # Redirect staff members to dashboard as that's the most likely place
         # they'll want to visit if they're logging in.
         if self.request.user.is_staff:
-            return reverse('dashboard:index')
+            return reverse('oscar:dashboard:index')
 
         return settings.LOGIN_REDIRECT_URL
 
@@ -308,7 +308,7 @@ class ProfileUpdateView(PageTitleMixin, generic.FormView):
     communication_type_code = 'EMAIL_CHANGED'
     page_title = _('Edit Profile')
     active_tab = 'profile'
-    success_url = reverse_lazy('customer:profile-view')
+    success_url = reverse_lazy('oscar:customer:profile-view')
 
     def get_form_kwargs(self):
         kwargs = super(ProfileUpdateView, self).get_form_kwargs()
@@ -374,7 +374,7 @@ class ChangePasswordView(PageTitleMixin, generic.FormView):
     communication_type_code = 'PASSWORD_CHANGED'
     page_title = _('Change Password')
     active_tab = 'profile'
-    success_url = reverse_lazy('customer:profile-view')
+    success_url = reverse_lazy('oscar:customer:profile-view')
 
     def get_form_kwargs(self):
         kwargs = super(ChangePasswordView, self).get_form_kwargs()
@@ -464,7 +464,7 @@ class OrderHistoryView(PageTitleMixin, generic.ListView):
                     pass
                 else:
                     return redirect(
-                        'customer:order', order_number=order.number)
+                        'oscar:customer:order', order_number=order.number)
         else:
             self.form = self.form_class()
         return super(OrderHistoryView, self).get(request, *args, **kwargs)
@@ -524,7 +524,7 @@ class OrderDetailView(PageTitleMixin, PostActionMixin, generic.DetailView):
             total_quantity)
         if not is_quantity_allowed:
             messages.warning(self.request, reason)
-            self.response = redirect('customer:order-list')
+            self.response = redirect('oscar:customer:order-list')
             return
 
         # Add any warnings
@@ -541,13 +541,13 @@ class OrderDetailView(PageTitleMixin, PostActionMixin, generic.DetailView):
             basket.add_product(line.product, line.quantity, options)
 
         if len(lines_to_add) > 0:
-            self.response = redirect('basket:summary')
+            self.response = redirect('oscar:basket:summary')
             messages.info(
                 self.request,
                 _("All available lines from order %(number)s "
                   "have been added to your basket") % {'number': order.number})
         else:
-            self.response = redirect('customer:order-list')
+            self.response = redirect('oscar:customer:order-list')
             messages.warning(
                 self.request,
                 _("It is not possible to re-order order %(number)s "
@@ -564,7 +564,7 @@ class OrderLineView(PostActionMixin, generic.DetailView):
         return order.lines.get(id=self.kwargs['line_id'])
 
     def do_reorder(self, line):
-        self.response = redirect('customer:order', self.kwargs['order_number'])
+        self.response = redirect('oscar:customer:order', self.kwargs['order_number'])
         basket = self.request.basket
 
         line_available_to_reorder, reason = line.is_available_to_reorder(
@@ -576,7 +576,7 @@ class OrderLineView(PostActionMixin, generic.DetailView):
 
         # We need to pass response to the get_or_create... method
         # as a new basket might need to be created
-        self.response = redirect('basket:summary')
+        self.response = redirect('oscar:basket:summary')
 
         # Convert line attributes into basket options
         options = []
@@ -632,7 +632,7 @@ class AddressCreateView(PageTitleMixin, generic.CreateView):
     template_name = 'customer/address/address_form.html'
     active_tab = 'addresses'
     page_title = _('Add a new address')
-    success_url = reverse_lazy('customer:address-list')
+    success_url = reverse_lazy('oscar:customer:address-list')
 
     def get_form_kwargs(self):
         kwargs = super(AddressCreateView, self).get_form_kwargs()
@@ -656,7 +656,7 @@ class AddressUpdateView(PageTitleMixin, generic.UpdateView):
     template_name = 'customer/address/address_form.html'
     active_tab = 'addresses'
     page_title = _('Edit address')
-    success_url = reverse_lazy('customer:address-list')
+    success_url = reverse_lazy('oscar:customer:address-list')
 
     def get_form_kwargs(self):
         kwargs = super(AddressUpdateView, self).get_form_kwargs()
@@ -683,7 +683,7 @@ class AddressDeleteView(PageTitleMixin, generic.DeleteView):
     page_title = _('Delete address?')
     active_tab = 'addresses'
     context_object_name = 'address'
-    success_url = reverse_lazy('customer:address-list')
+    success_url = reverse_lazy('oscar:customer:address-list')
 
     def get_queryset(self):
         return UserAddress._default_manager.filter(user=self.request.user)
@@ -698,7 +698,7 @@ class AddressChangeStatusView(generic.RedirectView):
     """
     Sets an address as default_for_(billing|shipping)
     """
-    url = reverse_lazy('customer:address-list')
+    url = reverse_lazy('oscar:customer:address-list')
     permanent = False
 
     def get(self, request, pk=None, action=None, *args, **kwargs):

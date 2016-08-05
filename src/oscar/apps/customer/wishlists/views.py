@@ -76,7 +76,7 @@ class WishListDetailView(PageTitleMixin, FormView):
             else:
                 subform.save()
         messages.success(self.request, _('Quantities updated.'))
-        return redirect('customer:wishlists-detail', key=self.object.key)
+        return redirect('oscar:customer:wishlists-detail', key=self.object.key)
 
 
 class WishListCreateView(PageTitleMixin, CreateView):
@@ -172,7 +172,7 @@ class WishListUpdateView(PageTitleMixin, UpdateView):
         messages.success(
             self.request, _("Your '%s' wishlist has been updated")
             % self.object.name)
-        return reverse('customer:wishlists-list')
+        return reverse('oscar:customer:wishlists-list')
 
 
 class WishListDeleteView(PageTitleMixin, DeleteView):
@@ -191,7 +191,7 @@ class WishListDeleteView(PageTitleMixin, DeleteView):
         messages.success(
             self.request, _("Your '%s' wish list has been deleted")
             % self.object.name)
-        return reverse('customer:wishlists-list')
+        return reverse('oscar:customer:wishlists-list')
 
 
 class WishListAddProduct(View):
@@ -295,7 +295,7 @@ class WishListRemoveProduct(LineMixin, PageTitleMixin, DeleteView):
             return referrer
         else:
             return reverse(
-                'customer:wishlists-detail', kwargs={'key': self.wishlist.key})
+                'oscar:customer:wishlists-detail', kwargs={'key': self.wishlist.key})
 
 
 class WishListMoveProductToAnotherWishList(LineMixin, View):
@@ -321,5 +321,5 @@ class WishListMoveProductToAnotherWishList(LineMixin, View):
         messages.success(self.request, msg)
 
         default_url = reverse(
-            'customer:wishlists-detail', kwargs={'key': self.wishlist.key})
+            'oscar:customer:wishlists-detail', kwargs={'key': self.wishlist.key})
         return redirect_to_referrer(self.request, default_url)

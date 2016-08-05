@@ -9,10 +9,10 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:voucher-list' %}">{% trans "Vouchers" %}</a>
+            <a href="{% url 'oscar:dashboard:voucher-list' %}">{% trans "Vouchers" %}</a>
         </li>
         <li class="active">{{ voucher }}</li>
     </ul>
@@ -69,7 +69,7 @@
                 {% for discount in discounts %}
                     {% with order=discount.order %}
                         <tr>
-                            <td><a href="{% url "dashboard:order-detail" number=order.number %}">{{ order.number }}</a></td>
+                            <td><a href="{% url 'oscar:dashboard:order-detail' number=order.number %}">{{ order.number }}</a></td>
                             <td>{{ order.total_incl_tax|currency:order.currency }}</td>
                             <td>{{ discount.amount|currency:order.currency }}</td>
                             <td>{{ order.date_placed }}</td>
@@ -81,9 +81,9 @@
     </table>
 
     <div class="form-actions">
-        <a class="btn btn-primary" href="{% url 'dashboard:voucher-update' pk=voucher.id %}">{% trans "Edit" %}</a> {% trans "or" %}
-        <a class="btn btn-danger" href="{% url 'dashboard:voucher-delete' pk=voucher.id %}">{% trans "Delete" %}</a> {% trans "or" %}
-        <a href="{% url 'dashboard:voucher-list' %}">{% trans "cancel" %}</a>
+        <a class="btn btn-primary" href="{% url 'oscar:dashboard:voucher-update' pk=voucher.id %}">{% trans "Edit" %}</a> {% trans "or" %}
+        <a class="btn btn-danger" href="{% url 'oscar:dashboard:voucher-delete' pk=voucher.id %}">{% trans "Delete" %}</a> {% trans "or" %}
+        <a href="{% url 'oscar:dashboard:voucher-list' %}">{% trans "cancel" %}</a>
     </div>
 
 {% endblock dashboard_content %}

@@ -29,22 +29,22 @@ class TestGatewayPage(ProductWebTest):
     is_staff = True
 
     def test_redirects_to_list_page_when_no_query_param(self):
-        url = reverse('dashboard:catalogue-product-create')
+        url = reverse('oscar:dashboard:catalogue-product-create')
         response = self.get(url)
         self.assertRedirects(response,
-                             reverse('dashboard:catalogue-product-list'))
+                             reverse('oscar:dashboard:catalogue-product-list'))
 
     def test_redirects_to_list_page_when_invalid_query_param(self):
-        url = reverse('dashboard:catalogue-product-create')
+        url = reverse('oscar:dashboard:catalogue-product-create')
         response = self.get(url + '?product_class=bad')
         self.assertRedirects(response,
-                             reverse('dashboard:catalogue-product-list'))
+                             reverse('oscar:dashboard:catalogue-product-list'))
 
     def test_redirects_to_form_page_when_valid_query_param(self):
         pclass = ProductClassFactory(name='Books', slug='books')
-        url = reverse('dashboard:catalogue-product-create')
+        url = reverse('oscar:dashboard:catalogue-product-create')
         response = self.get(url + '?product_class=%s' % pclass.pk)
-        expected_url = reverse('dashboard:catalogue-product-create',
+        expected_url = reverse('oscar:dashboard:catalogue-product-create',
                                kwargs={'product_class_slug': pclass.slug})
         self.assertRedirects(response, expected_url)
 
@@ -57,7 +57,7 @@ class TestCreateParentProduct(ProductWebTest):
         super(TestCreateParentProduct, self).setUp()
 
     def submit(self, title=None, category=None, upc=None):
-        url = reverse('dashboard:catalogue-product-create',
+        url = reverse('oscar:dashboard:catalogue-product-create',
                       kwargs={'product_class_slug': self.pclass.slug})
 
         product_form = self.get(url).form
@@ -113,7 +113,7 @@ class TestCreateChildProduct(ProductWebTest):
         super(TestCreateChildProduct, self).setUp()
 
     def test_categories_are_not_required(self):
-        url = reverse('dashboard:catalogue-product-create-child',
+        url = reverse('oscar:dashboard:catalogue-product-create-child',
                       kwargs={'parent_pk': self.parent.pk})
         page = self.get(url)
 
@@ -133,7 +133,7 @@ class TestProductUpdate(ProductWebTest):
 
     def test_product_update_form(self):
         self.product = factories.ProductFactory()
-        url = reverse('dashboard:catalogue-product',
+        url = reverse('oscar:dashboard:catalogue-product',
                       kwargs={'pk': self.product.id})
 
         page = self.get(url)

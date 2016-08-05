@@ -11,13 +11,13 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:voucher-list' %}">{% trans "Vouchers" %}</a>
+            <a href="{% url 'oscar:dashboard:voucher-list' %}">{% trans "Vouchers" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:voucher-stats' pk=voucher.pk %}">{{ voucher }}</a>
+            <a href="{% url 'oscar:dashboard:voucher-stats' pk=voucher.pk %}">{{ voucher }}</a>
         </li>
         <li class="active">{% trans "Delete?" %}</li>
     </ul>
@@ -46,7 +46,7 @@
             {% csrf_token %}
             <div class="form-actions">
                 <button class="btn btn-danger btn-lg" type="submit" data-loading-text="{% trans 'Deleting...' %}">{% trans "Delete" %}</button> {% trans "or" %}
-                <a href="{% url 'dashboard:voucher-list' %}">{% trans "cancel" %}</a>
+                <a href="{% url 'oscar:dashboard:voucher-list' %}">{% trans "cancel" %}</a>
             </div>
         </form>
     </div>

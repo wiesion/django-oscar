@@ -83,7 +83,7 @@ class AbstractProductReview(models.Model):
             'product_pk': self.product.id,
             'pk': self.id
         }
-        return reverse('catalogue:reviews-detail', kwargs=kwargs)
+        return reverse('oscar:catalogue:reviews-detail', kwargs=kwargs)
 
     def __str__(self):
         return self.title

@@ -135,7 +135,7 @@ class OrderListView(BulkEditMixin, ListView):
                 pass
             else:
                 return redirect(
-                    'dashboard:order-detail', number=order.number)
+                    'oscar:dashboard:order-detail', number=order.number)
         return super(OrderListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):  # noqa (too complex (19))
@@ -410,7 +410,7 @@ class OrderListView(BulkEditMixin, ListView):
     def change_order_statuses(self, request, orders):
         for order in orders:
             self.change_order_status(request, order)
-        return redirect('dashboard:order-list')
+        return redirect('oscar:dashboard:order-list')
 
     def change_order_status(self, request, order):
         # This method is pretty similar to what
@@ -521,7 +521,7 @@ class OrderDetailView(DetailView):
             request, order, lines, line_quantities)
 
     def reload_page(self, fragment=None, error=None):
-        url = reverse('dashboard:order-detail',
+        url = reverse('oscar:dashboard:order-detail',
                       kwargs={'number': self.object.number})
         if fragment:
             url += '#' + fragment
@@ -825,5 +825,5 @@ class ShippingAddressUpdateView(UpdateView):
 
     def get_success_url(self):
         messages.info(self.request, _("Delivery address updated"))
-        return reverse('dashboard:order-detail',
+        return reverse('oscar:dashboard:order-detail',
                        kwargs={'number': self.object.order.number, })

@@ -19,7 +19,7 @@ class TestAUserWhoseForgottenHerPassword(WebTest):
         User.objects.create_user(username, email, password)
 
         # Fill in password reset form
-        page = self.app.get(reverse('password-reset'))
+        page = self.app.get(reverse('oscar:password-reset'))
         form = page.forms['password_reset_form']
         form['email'] = email
         response = form.submit()
@@ -44,7 +44,7 @@ class TestAUserWhoseForgottenHerPassword(WebTest):
         self.assertEqual(302, response.status_code)
 
         # Now attempt to login with new password
-        url = reverse('customer:login')
+        url = reverse('oscar:customer:login')
         form = self.app.get(url).forms['login_form']
         form['login-username'] = email
         form['login-password'] = 'crazymonkey'
@@ -56,7 +56,7 @@ class TestAnAuthenticatedUser(WebTestCase):
     is_anonymous = False
 
     def test_receives_an_email_when_their_password_is_changed(self):
-        page = self.get(reverse('customer:change-password'))
+        page = self.get(reverse('oscar:customer:change-password'))
         form = page.forms['change_password_form']
         form['old_password'] = self.password
         form['new_password1'] = u'anotherfancypassword'
@@ -67,18 +67,18 @@ class TestAnAuthenticatedUser(WebTestCase):
         self.assertIn("your password has been changed", mail.outbox[0].body)
 
     def test_cannot_access_reset_password_page(self):
-        response = self.get(reverse('password-reset'), status=403)
+        response = self.get(reverse('oscar:password-reset'), status=403)
         self.assertEqual(403, response.status_code)
 
     def test_does_not_receive_an_email_when_their_profile_is_updated_but_email_address_not_changed(self):
-        page = self.get(reverse('customer:profile-update'))
+        page = self.get(reverse('oscar:customer:profile-update'))
         form = page.forms['profile_form']
         form['first_name'] = "Terry"
         form.submit()
         self.assertEqual(len(mail.outbox), 0)
 
     def test_receives_an_email_when_their_email_address_is_changed(self):
-        page = self.get(reverse('customer:profile-update'))
+        page = self.get(reverse('oscar:customer:profile-update'))
         form = page.forms['profile_form']
 
         new_email = 'a.new.email@user.com'
@@ -96,12 +96,12 @@ class TestAnAnonymousUser(WebTestCase):
     is_anonymous = True
 
     def assertCanLogin(self, email, password):
-        url = reverse('customer:login')
+        url = reverse('oscar:customer:login')
         form = self.app.get(url).forms['login_form']
         form['login-username'] = email
         form['login-password'] = password
         response = form.submit('login_submit')
-        self.assertRedirectsTo(response, 'customer:summary')
+        self.assertRedirectsTo(response, 'oscar:customer:summary')
 
     def test_can_login(self):
         email, password = 'd@d.com', 'mypassword'
@@ -119,15 +119,15 @@ class TestAnAnonymousUser(WebTestCase):
         self.assertCanLogin(email, password)
 
     def test_can_register(self):
-        url = reverse('customer:register')
+        url = reverse('oscar:customer:register')
         form = self.app.get(url).forms['register_form']
         form['email'] = 'terry@boom.com'
         form['password1'] = form['password2'] = 'hedgehog'
         response = form.submit()
-        self.assertRedirectsTo(response, 'customer:summary')
+        self.assertRedirectsTo(response, 'oscar:customer:summary')
 
     def test_casing_of_local_part_of_email_is_preserved(self):
-        url = reverse('customer:register')
+        url = reverse('oscar:customer:register')
         form = self.app.get(url).forms['register_form']
         form['email'] = 'Terry@Boom.com'
         form['password1'] = form['password2'] = 'hedgehog'
@@ -146,10 +146,10 @@ class TestAStaffUser(WebTestCase):
         super(TestAStaffUser, self).setUp()
 
     def test_gets_redirected_to_the_dashboard_when_they_login(self):
-        page = self.get(reverse('customer:login'))
+        page = self.get(reverse('oscar:customer:login'))
         form = page.forms['login_form']
         form['login-username'] = self.staff.email
         form['login-password'] = self.password
         response = form.submit('login_submit')
 
-        self.assertRedirectsTo(response, 'dashboard:index')
+        self.assertRedirectsTo(response, 'oscar:dashboard:index')

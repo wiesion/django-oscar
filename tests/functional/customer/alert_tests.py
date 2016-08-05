@@ -39,7 +39,7 @@ class TestAUserWithAnActiveStockAlert(WebTest):
         self.assertEqual(1, len(alerts))
         alert = alerts[0]
         self.assertFalse(alert.is_cancelled)
-        self.app.get(reverse('customer:alerts-cancel-by-pk',
+        self.app.get(reverse('oscar:customer:alerts-cancel-by-pk',
                              kwargs={'pk': alert.pk}),
                              user=self.user)
 

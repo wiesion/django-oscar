@@ -64,7 +64,7 @@
             pops out when clicked.  A bit like the Django-Debug-Toolbar button
             {% endcomment %}
             {% if user.is_authenticated and user.is_staff %}
-                <a class="pull-right hidden-xs" href="{% url 'dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
+                <a class="pull-right hidden-xs" href="{% url 'oscar:dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
             {% endif %}
             <h1>{{ product.get_title }}</h1>
 
@@ -147,7 +147,7 @@
         <section>
             <div id="reviews" class="sub-header">
                 {% if product.num_approved_reviews > 3 %}
-                    <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}" class="btn pull-right">{% trans "See all reviews" %}</a>
+                    <a href="{% url 'oscar:catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}" class="btn pull-right">{% trans "See all reviews" %}</a>
                 {% endif %}
                 <h2>{% trans "Customer Reviews" %}</h2>
             </div>
@@ -155,7 +155,7 @@
             {% if product.num_approved_reviews == 0 %}
                 <p>
                     {% if product|is_review_permitted:user %}
-                        {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
+                        {% url 'oscar:catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
                             {% blocktrans %}This product does not have any reviews yet -
                             <a href="{{ add_review_url }}#addreview">be the first to write one</a>.
                         {% endblocktrans %}

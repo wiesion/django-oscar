@@ -10,11 +10,11 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         {% if form.is_bound %}
             <li>
-                <a href="{% url 'dashboard:voucher-list' %}">{% trans "Vouchers" %}</a>
+                <a href="{% url 'oscar:dashboard:voucher-list' %}">{% trans "Vouchers" %}</a>
             </li>
         {% endif %}
         <li class="active">{{ description }}</li>
@@ -23,7 +23,7 @@
 
 {% block header %}
     <div class="page-header">
-        <a href="{% url 'dashboard:voucher-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Create new voucher" %}</a>
+        <a href="{% url 'oscar:dashboard:voucher-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Create new voucher" %}</a>
         <h1>{% trans "Vouchers" %}</h1>
     </div>
 {% endblock header %}
@@ -38,7 +38,7 @@
             <form action="." method="get" class="form-inline">
                 {% include 'dashboard/partials/form_fields_inline.html' with form=form %}
                 <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
-                <a href="{% url 'dashboard:voucher-list' %}" class="btn btn-default">{% trans "Reset" %}</a>
+                <a href="{% url 'oscar:dashboard:voucher-list' %}" class="btn btn-default">{% trans "Reset" %}</a>
             </form>
         </div>
     {% endblock page_head %}
@@ -61,7 +61,7 @@
                 {% for voucher in vouchers %}
                     {% block table_row %}
                         <tr>
-                            <td><a href="{% url 'dashboard:voucher-stats' voucher.id %}">{{ voucher.name }}</a></td>
+                            <td><a href="{% url 'oscar:dashboard:voucher-stats' voucher.id %}">{{ voucher.name }}</a></td>
                             <td>
                                 <span class="label label-inverse">{{ voucher.code }}</span>
                             </td>
@@ -84,9 +84,9 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu pull-right">
-                                                <li><a href="{% url 'dashboard:voucher-stats' pk=voucher.id %}">{% trans "Stats" %}</a></li>
-                                                <li><a href="{% url 'dashboard:voucher-update' pk=voucher.id %}">{% trans "Edit" %}</a></li>
-                                                <li><a href="{% url 'dashboard:voucher-delete' pk=voucher.id %}">{% trans "Delete" %}</a></li>
+                                                <li><a href="{% url 'oscar:dashboard:voucher-stats' pk=voucher.id %}">{% trans "Stats" %}</a></li>
+                                                <li><a href="{% url 'oscar:dashboard:voucher-update' pk=voucher.id %}">{% trans "Edit" %}</a></li>
+                                                <li><a href="{% url 'oscar:dashboard:voucher-delete' pk=voucher.id %}">{% trans "Delete" %}</a></li>
                                             </ul>
                                         </div>
                                     </div>

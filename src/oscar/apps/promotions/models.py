@@ -52,7 +52,7 @@ class PagePromotion(LinkedPromotion):
         return u"%s on %s" % (self.content_object, self.page_url)
 
     def get_link(self):
-        return reverse('promotions:page-click',
+        return reverse('oscar:promotions:page-click',
                        kwargs={'page_promotion_id': self.id})
 
     class Meta(LinkedPromotion.Meta):
@@ -75,7 +75,7 @@ class KeywordPromotion(LinkedPromotion):
     filter = models.CharField(_("Filter"), max_length=200, blank=True)
 
     def get_link(self):
-        return reverse('promotions:keyword-click',
+        return reverse('oscar:promotions:keyword-click',
                        kwargs={'keyword_promotion_id': self.id})
 
     class Meta(LinkedPromotion.Meta):

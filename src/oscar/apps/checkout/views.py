@@ -50,7 +50,7 @@ class IndexView(CheckoutSessionMixin, generic.FormView):
     """
     template_name = 'checkout/gateway.html'
     form_class = GatewayForm
-    success_url = reverse_lazy('checkout:shipping-address')
+    success_url = reverse_lazy('oscar:checkout:shipping-address')
     pre_conditions = [
         'check_basket_is_not_empty',
         'check_basket_is_valid']
@@ -91,8 +91,8 @@ class IndexView(CheckoutSessionMixin, generic.FormView):
                     _("Create your account and then you will be redirected "
                       "back to the checkout process"))
                 self.success_url = "%s?next=%s&email=%s" % (
-                    reverse('customer:register'),
-                    reverse('checkout:shipping-address'),
+                    reverse('oscar:customer:register'),
+                    reverse('oscar:checkout:shipping-address'),
                     urlquote(email)
                 )
         else:
@@ -131,7 +131,7 @@ class ShippingAddressView(CheckoutSessionMixin, generic.FormView):
     """
     template_name = 'checkout/shipping_address.html'
     form_class = ShippingAddressForm
-    success_url = reverse_lazy('checkout:shipping-method')
+    success_url = reverse_lazy('oscar:checkout:shipping-method')
     pre_conditions = ['check_basket_is_not_empty',
                       'check_basket_is_valid',
                       'check_user_email_is_captured']
@@ -200,7 +200,7 @@ class UserAddressUpdateView(CheckoutSessionMixin, generic.UpdateView):
     """
     template_name = 'checkout/user_address_form.html'
     form_class = UserAddressForm
-    success_url = reverse_lazy('checkout:shipping-address')
+    success_url = reverse_lazy('oscar:checkout:shipping-address')
 
     def get_queryset(self):
         return self.request.user.addresses.all()
@@ -220,7 +220,7 @@ class UserAddressDeleteView(CheckoutSessionMixin, generic.DeleteView):
     Delete an address from a user's address book.
     """
     template_name = 'checkout/user_address_delete.html'
-    success_url = reverse_lazy('checkout:shipping-address')
+    success_url = reverse_lazy('oscar:checkout:shipping-address')
 
     def get_queryset(self):
         return self.request.user.addresses.all()
@@ -272,7 +272,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         # Check that shipping address has been completed
         if not self.checkout_session.is_shipping_address_set():
             messages.error(request, _("Please choose a shipping address"))
-            return redirect('checkout:shipping-address')
+            return redirect('oscar:checkout:shipping-address')
 
         # Save shipping methods as instance var as we need them both here
         # and when setting the context vars.
@@ -282,7 +282,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
             messages.warning(request, _(
                 "Shipping is unavailable for your chosen address - please "
                 "choose another"))
-            return redirect('checkout:shipping-address')
+            return redirect('oscar:checkout:shipping-address')
         elif len(self._methods) == 1:
             # Only one shipping method - set this and redirect onto the next
             # step
@@ -328,7 +328,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         return super(ShippingMethodView, self).form_invalid(form)
 
     def get_success_response(self):
-        return redirect('checkout:payment-method')
+        return redirect('oscar:checkout:payment-method')
 
 
 # ==============
@@ -358,7 +358,7 @@ class PaymentMethodView(CheckoutSessionMixin, generic.TemplateView):
         return self.get_success_response()
 
     def get_success_response(self):
-        return redirect('checkout:payment-details')
+        return redirect('oscar:checkout:payment-details')
 
 
 # ================

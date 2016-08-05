@@ -15,7 +15,7 @@ class TestAnAdmin(WebTestCase):
             category=CommunicationEventType.USER_RELATED)
 
     def test_can_preview_an_email(self):
-        list_page = self.app.get(reverse('dashboard:comms-list'),
+        list_page = self.app.get(reverse('oscar:dashboard:comms-list'),
                                  user=self.staff)
         update_page = list_page.click('Edit')
         form = update_page.form
@@ -26,7 +26,7 @@ class TestAnAdmin(WebTestCase):
         self.assertTrue('Hello 1234' in preview.content.decode('utf8'))
 
     def test_can_send_a_preview_email(self):
-        list_page = self.app.get(reverse('dashboard:comms-list'),
+        list_page = self.app.get(reverse('oscar:dashboard:comms-list'),
                                  user=self.staff)
         update_page = list_page.click('Edit')
         form = update_page.form

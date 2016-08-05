@@ -108,7 +108,7 @@ class CheckoutSessionMixin(object):
     def check_basket_is_not_empty(self, request):
         if request.basket.is_empty:
             raise exceptions.FailedPreCondition(
-                url=reverse('basket:summary'),
+                url=reverse('oscar:basket:summary'),
                 message=_(
                     "You need to add some items to your basket to checkout")
             )
@@ -136,7 +136,7 @@ class CheckoutSessionMixin(object):
                 messages.append(msg)
         if messages:
             raise exceptions.FailedPreCondition(
-                url=reverse('basket:summary'),
+                url=reverse('oscar:basket:summary'),
                 messages=messages
             )
 
@@ -144,7 +144,7 @@ class CheckoutSessionMixin(object):
         if not request.user.is_authenticated() \
                 and not self.checkout_session.get_guest_email():
             raise exceptions.FailedPreCondition(
-                url=reverse('checkout:index'),
+                url=reverse('oscar:checkout:index'),
                 message=_(
                     "Please either sign in or enter your email address")
             )
@@ -156,7 +156,7 @@ class CheckoutSessionMixin(object):
             if not self.checkout_session.is_shipping_method_set(
                     self.request.basket):
                 raise exceptions.FailedPreCondition(
-                    url=reverse('checkout:shipping-method'),
+                    url=reverse('oscar:checkout:shipping-method'),
                 )
             return
 
@@ -169,7 +169,7 @@ class CheckoutSessionMixin(object):
         # Check that shipping address has been completed
         if not self.checkout_session.is_shipping_address_set():
             raise exceptions.FailedPreCondition(
-                url=reverse('checkout:shipping-address'),
+                url=reverse('oscar:checkout:shipping-address'),
                 message=_("Please choose a shipping address")
             )
 
@@ -178,7 +178,7 @@ class CheckoutSessionMixin(object):
             basket=self.request.basket)
         if not shipping_address:
             raise exceptions.FailedPreCondition(
-                url=reverse('checkout:shipping-address'),
+                url=reverse('oscar:checkout:shipping-address'),
                 message=_("Your previously chosen shipping address is "
                           "no longer valid.  Please choose another one")
             )
@@ -188,7 +188,7 @@ class CheckoutSessionMixin(object):
         if not self.checkout_session.is_shipping_method_set(
                 self.request.basket):
             raise exceptions.FailedPreCondition(
-                url=reverse('checkout:shipping-method'),
+                url=reverse('oscar:checkout:shipping-method'),
                 message=_("Please choose a shipping method")
             )
 
@@ -200,7 +200,7 @@ class CheckoutSessionMixin(object):
             shipping_address=shipping_address)
         if not shipping_method:
             raise exceptions.FailedPreCondition(
-                url=reverse('checkout:shipping-method'),
+                url=reverse('oscar:checkout:shipping-method'),
                 message=_("Your previously chosen shipping method is "
                           "no longer valid.  Please choose another one")
             )
@@ -220,7 +220,7 @@ class CheckoutSessionMixin(object):
         # not be if the basket is purely downloads
         if not request.basket.is_shipping_required():
             raise exceptions.PassedSkipCondition(
-                url=reverse('checkout:shipping-method')
+                url=reverse('oscar:checkout:shipping-method')
             )
 
     def skip_unless_payment_is_required(self, request):
@@ -241,7 +241,7 @@ class CheckoutSessionMixin(object):
         total = self.get_order_totals(request.basket, shipping_charge)
         if total.excl_tax == D('0.00'):
             raise exceptions.PassedSkipCondition(
-                url=reverse('checkout:preview')
+                url=reverse('oscar:checkout:preview')
             )
 
     # Helpers

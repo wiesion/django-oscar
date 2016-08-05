@@ -21,7 +21,7 @@ class TestOrderListDashboard(WebTestCase):
 
     def test_redirects_to_detail_page(self):
         order = create_order()
-        page = self.get(reverse('dashboard:order-list'))
+        page = self.get(reverse('oscar:dashboard:order-list'))
         form = page.forms['search_form']
         form['order_number'] = order.number
         response = form.submit()
@@ -30,13 +30,13 @@ class TestOrderListDashboard(WebTestCase):
     def test_downloads_to_csv_without_error(self):
         address = ShippingAddressFactory()
         create_order(shipping_address=address)
-        page = self.get(reverse('dashboard:order-list'))
+        page = self.get(reverse('oscar:dashboard:order-list'))
         form = page.forms['orders_form']
         form['selected_order'].checked = True
         form.submit('download_selected')
 
     def test_allows_order_number_search(self):
-        page = self.get(reverse('dashboard:order-list'))
+        page = self.get(reverse('oscar:dashboard:order-list'))
         form = page.forms['search_form']
         form['order_number'] = '+'
         form.submit()
@@ -71,34 +71,34 @@ class PermissionBasedDashboardOrderTestsNoStaff(PermissionBasedDashboardOrderTes
 
     def test_non_staff_can_only_list_her_orders(self):
         # order-list user1
-        response = self.get(reverse('dashboard:order-list'))
+        response = self.get(reverse('oscar:dashboard:order-list'))
         self.assertEqual(set(response.context['orders']),
                          set([self.order_in]))
 
         # order-detail user2
-        url = reverse('dashboard:order-detail',
+        url = reverse('oscar:dashboard:order-detail',
                       kwargs={'number': self.order_in.number})
         self.assertIsOk(self.get(url))
 
-        url = reverse('dashboard:order-detail',
+        url = reverse('oscar:dashboard:order-detail',
                       kwargs={'number': self.order_out.number})
         self.assertNoAccess(self.get(url, status="*"))
 
         # order-line-detail user2
-        url = reverse('dashboard:order-line-detail',
+        url = reverse('oscar:dashboard:order-line-detail',
                       kwargs={'number': self.order_in.number,
                               'line_id': self.order_in.lines.all()[0].pk})
         self.assertIsOk(self.get(url))
-        url = reverse('dashboard:order-line-detail',
+        url = reverse('oscar:dashboard:order-line-detail',
                       kwargs={'number': self.order_out.number,
                               'line_id': self.order_out.lines.all()[0].pk})
         self.assertNoAccess(self.get(url, status="*"))
 
         # order-shipping-address
-        url = reverse('dashboard:order-shipping-address',
+        url = reverse('oscar:dashboard:order-shipping-address',
                       kwargs={'number': self.order_in.number})
         self.assertIsOk(self.get(url))
-        url = reverse('dashboard:order-shipping-address',
+        url = reverse('oscar:dashboard:order-shipping-address',
                       kwargs={'number': self.order_out.number})
         self.assertNoAccess(self.get(url, status="*"))
 
@@ -109,13 +109,13 @@ class PermissionBasedDashboardOrderTestsStaff(PermissionBasedDashboardOrderTests
     def test_staff_user_can_list_all_orders(self):
         orders = [self.order_in, self.order_out]
         # order-list
-        response = self.get(reverse('dashboard:order-list'))
+        response = self.get(reverse('oscar:dashboard:order-list'))
         self.assertIsOk(response)
         self.assertEqual(set(response.context['orders']),
                          set(orders))
         # order-detail
         for order in orders:
-            url = reverse('dashboard:order-detail',
+            url = reverse('oscar:dashboard:order-detail',
                           kwargs={'number': order.number})
             self.assertIsOk(self.get(url))
 
@@ -199,7 +199,7 @@ class TestOrderListSearch(WebTestCase):
 
     def test_search_filter_descriptions(self):
         SourceTypeFactory(name='Visa', code='visa')
-        url = reverse('dashboard:order-list')
+        url = reverse('oscar:dashboard:order-list')
         for params, expected_filters in self.TEST_CASES:
 
             # Need to provide the order number parameter to avoid
@@ -223,7 +223,7 @@ class TestOrderDetailPage(WebTestCase):
         # ensures that initial statuses are as expected
         self.order = create_order()
         self.event_type = PaymentEventType.objects.create(name='foo')
-        url = reverse('dashboard:order-detail',
+        url = reverse('oscar:dashboard:order-detail',
                       kwargs={'number': self.order.number})
         self.page = self.get(url)
 
@@ -281,7 +281,7 @@ class TestChangingOrderStatus(WebTestCase):
 
         Order.pipeline = {'A': ('B', 'C')}
         self.order = create_order(status='A')
-        url = reverse('dashboard:order-detail',
+        url = reverse('oscar:dashboard:order-detail',
                       kwargs={'number': self.order.number})
 
         page = self.get(url)
@@ -310,7 +310,7 @@ class TestChangingOrderStatusFromFormOnOrderListView(WebTestCase):
 
         Order.pipeline = {'A': ('B', 'C'), 'B': ('A', 'C'), 'C': ('A', 'B')}
         self.order = create_order(status='A')
-        url = reverse('dashboard:order-list')
+        url = reverse('oscar:dashboard:order-list')
 
         page = self.get(url)
         form = page.forms['orders_form']
@@ -338,7 +338,7 @@ class LineDetailTests(WebTestCase):
     def setUp(self):
         self.order = create_order()
         self.line = self.order.lines.all()[0]
-        self.url = reverse('dashboard:order-line-detail',
+        self.url = reverse('oscar:dashboard:order-line-detail',
                            kwargs={'number': self.order.number,
                                    'line_id': self.line.id})
         super(LineDetailTests, self).setUp()

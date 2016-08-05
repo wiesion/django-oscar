@@ -10,7 +10,7 @@ class TestPartnerDashboard(WebTestCase):
         partner = models.Partner.objects.create(
             name="Acme Ltd")
 
-        url = reverse('dashboard:partner-list')
+        url = reverse('oscar:dashboard:partner-list')
         list_page = self.get(url)
         detail_page = list_page.click("Manage partner and users")
         user_page = detail_page.click("Link a new user")

@@ -124,7 +124,7 @@ class CatalogueView(TemplateView):
         except InvalidPage:
             # Redirect to page one.
             messages.error(request, _('The given page number was invalid.'))
-            return redirect('catalogue:index')
+            return redirect('oscar:catalogue:index')
         return super(CatalogueView, self).get(request, *args, **kwargs)
 
     def get_search_handler(self, *args, **kwargs):

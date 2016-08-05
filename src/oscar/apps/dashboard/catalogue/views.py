@@ -150,12 +150,12 @@ class ProductCreateRedirectView(generic.RedirectView):
 
     def get_product_create_url(self, product_class):
         """ Allow site to provide custom URL """
-        return reverse('dashboard:catalogue-product-create',
+        return reverse('oscar:dashboard:catalogue-product-create',
                        kwargs={'product_class_slug': product_class.slug})
 
     def get_invalid_product_class_url(self):
         messages.error(self.request, _("Please choose a product type"))
-        return reverse('dashboard:catalogue-product-list')
+        return reverse('oscar:dashboard:catalogue-product-list')
 
     def get_redirect_url(self, **kwargs):
         form = self.productclass_form_class(self.request.GET)
@@ -216,7 +216,7 @@ class ProductCreateUpdateView(generic.UpdateView):
             is_valid, reason = self.parent.can_be_parent(give_reason=True)
             if not is_valid:
                 messages.error(self.request, reason)
-                return redirect('dashboard:catalogue-product-list')
+                return redirect('oscar:dashboard:catalogue-product-list')
 
     def get_queryset(self):
         """
@@ -403,17 +403,17 @@ class ProductCreateUpdateView(generic.UpdateView):
         action = self.request.POST.get('action')
         if action == 'continue':
             url = reverse(
-                'dashboard:catalogue-product', kwargs={"pk": self.object.id})
+                'oscar:dashboard:catalogue-product', kwargs={"pk": self.object.id})
         elif action == 'create-another-child' and self.parent:
             url = reverse(
-                'dashboard:catalogue-product-create-child',
+                'oscar:dashboard:catalogue-product-create-child',
                 kwargs={'parent_pk': self.parent.pk})
         elif action == 'create-child':
             url = reverse(
-                'dashboard:catalogue-product-create-child',
+                'oscar:dashboard:catalogue-product-create-child',
                 kwargs={'parent_pk': self.object.pk})
         else:
-            url = reverse('dashboard:catalogue-product-list')
+            url = reverse('oscar:dashboard:catalogue-product-list')
         return self.get_url_with_querystring(url)
 
 
@@ -485,12 +485,12 @@ class ProductDeleteView(generic.DeleteView):
             msg = _("Deleted product variant '%s'") % self.object.get_title()
             messages.success(self.request, msg)
             return reverse(
-                'dashboard:catalogue-product',
+                'oscar:dashboard:catalogue-product',
                 kwargs={'pk': self.object.parent_id})
         else:
             msg = _("Deleted product '%s'") % self.object.title
             messages.success(self.request, msg)
-            return reverse('dashboard:catalogue-product-list')
+            return reverse('oscar:dashboard:catalogue-product-list')
 
 
 class StockAlertListView(generic.ListView):
@@ -555,9 +555,9 @@ class CategoryListMixin(object):
     def get_success_url(self):
         parent = self.object.get_parent()
         if parent is None:
-            return reverse("dashboard:catalogue-category-list")
+            return reverse('oscar:dashboard:catalogue-category-list')
         else:
-            return reverse("dashboard:catalogue-category-detail-list",
+            return reverse('oscar:dashboard:catalogue-category-detail-list',
                            args=(parent.pk,))
 
 
@@ -692,7 +692,7 @@ class ProductClassCreateView(ProductClassCreateUpdateView):
 
     def get_success_url(self):
         messages.info(self.request, _("Product type created successfully"))
-        return reverse("dashboard:catalogue-class-list")
+        return reverse('oscar:dashboard:catalogue-class-list')
 
 
 class ProductClassUpdateView(ProductClassCreateUpdateView):
@@ -704,7 +704,7 @@ class ProductClassUpdateView(ProductClassCreateUpdateView):
 
     def get_success_url(self):
         messages.info(self.request, _("Product type updated successfully"))
-        return reverse("dashboard:catalogue-class-list")
+        return reverse('oscar:dashboard:catalogue-class-list')
 
     def get_object(self):
         product_class = get_object_or_404(ProductClass, pk=self.kwargs['pk'])
@@ -744,4 +744,4 @@ class ProductClassDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         messages.info(self.request, _("Product type deleted successfully"))
-        return reverse("dashboard:catalogue-class-list")
+        return reverse('oscar:dashboard:catalogue-class-list')

@@ -15,10 +15,10 @@
             </tr>
             {% for order in objects %}
                 <tr>
-                    <td><a href="{% url 'dashboard:order-detail' order.number %}">{{ order.number }}</a></td>
+                    <td><a href="{% url 'oscar:dashboard:order-detail' order.number %}">{{ order.number }}</a></td>
                     <td>
                         {% if order.user %}
-                            <a href="{% url 'dashboard:user-detail' order.user.id %}">{{ order.user|default:"-" }}</a>
+                            <a href="{% url 'oscar:dashboard:user-detail' order.user.id %}">{{ order.user|default:"-" }}</a>
                         {% else %}
                             -
                         {% endif %}
@@ -27,7 +27,7 @@
                     <td>{{ order.total_incl_tax|currency:order.currency }}</td>
                     <td>{{ order.date_placed }}</td>
                     <td>
-                        <a class="btn btn-info" href="{% url 'dashboard:order-detail' number=order.number %}">{% trans "View" %}</a>
+                        <a class="btn btn-info" href="{% url 'oscar:dashboard:order-detail' number=order.number %}">{% trans "View" %}</a>
                     </td>
                 </tr>
             {% endfor %}

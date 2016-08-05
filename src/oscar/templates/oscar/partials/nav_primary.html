@@ -15,7 +15,7 @@
             </a>
         </div>
 
-        <a class="btn btn-default navbar-btn btn-cart navbar-right visible-xs-inline-block" href="{% url 'basket:summary' %}">
+        <a class="btn btn-default navbar-btn btn-cart navbar-right visible-xs-inline-block" href="{% url 'oscar:basket:summary' %}">
             <i class="icon-shopping-cart"></i>
             {% trans "Basket" %}
             {% if not request.basket.is_empty %}
@@ -42,7 +42,7 @@
                         </a>
                         <ul class="dropdown-menu" data-navigation="dropdown-menu">
                             {% category_tree depth=2 as tree_categories %}
-                            <li><a tabindex="-1" href="{% url 'catalogue:index' %}">{% trans "All products" %}</a></li>
+                            <li><a tabindex="-1" href="{% url 'oscar:catalogue:index' %}">{% trans "All products" %}</a></li>
                             {% if tree_categories %}
                                 <li class="divider"></li>
                                 {% for tree_category, info in tree_categories %}
@@ -61,7 +61,7 @@
                             {% endif %}
                             <li class="divider"></li>
                             {% block nav_dropdown_extra_items %}
-                                <li><a href="{% url 'offer:list' %}">{% trans "Offers" %}</a></li>
+                                <li><a href="{% url 'oscar:offer:list' %}">{% trans "Offers" %}</a></li>
                             {% endblock %}
                         </ul>
                     </li>

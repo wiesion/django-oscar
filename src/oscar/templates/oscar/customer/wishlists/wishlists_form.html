@@ -7,10 +7,10 @@
             <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
         </li>
         <li>
-            <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+            <a href="{% url 'oscar:customer:summary' %}">{% trans 'Account' %}</a>
         </li>
         <li>
-            <a href="{% url 'customer:wishlists-list' %}">{% trans 'Wish Lists' %}</a>
+            <a href="{% url 'oscar:customer:wishlists-list' %}">{% trans 'Wish Lists' %}</a>
         </li>
         <li class="active">
             {% if wishlist %}

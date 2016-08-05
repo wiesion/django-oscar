@@ -255,7 +255,7 @@ class OrderPlacementMixin(CheckoutSessionMixin):
             request=request, response=response)
 
     def get_success_url(self):
-        return reverse('checkout:thank-you')
+        return reverse('oscar:checkout:thank-you')
 
     def send_confirmation_message(self, order, code, **kwargs):
         ctx = self.get_message_context(order)
@@ -292,7 +292,7 @@ class OrderPlacementMixin(CheckoutSessionMixin):
             # Attempt to add the anon order status URL to the email template
             # ctx.
             try:
-                path = reverse('customer:anon-order',
+                path = reverse('oscar:customer:anon-order',
                                kwargs={'order_number': order.number,
                                        'hash': order.verification_hash()})
             except NoReverseMatch:

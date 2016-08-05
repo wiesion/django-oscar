@@ -10,10 +10,10 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:catalogue-class-list' %}">{% trans "Product Type" %}</a>
+            <a href="{% url 'oscar:dashboard:catalogue-class-list' %}">{% trans "Product Type" %}</a>
         </li>
         <li class="active">{{ title }}</li>
     </ul>

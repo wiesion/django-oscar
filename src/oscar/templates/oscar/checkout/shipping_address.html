@@ -34,7 +34,7 @@
                                             {% endfor %}
                                         {% endblock %}
                                     </address>
-                                    <form action="{% url 'checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
+                                    <form action="{% url 'oscar:checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
                                         {% csrf_token %}
                                         <input type="hidden" name="action" value="ship_to" />
                                         <input type="hidden" name="address_id" value="{{ address.id }}" />
@@ -45,12 +45,12 @@
                                         {% endif %}
 
                                         <div class="btn-group address-controls">
-                                            <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm">{% trans "Edit address" %}</a>
+                                            <a href="{% url 'oscar:checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm">{% trans "Edit address" %}</a>
                                             <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{% url 'checkout:user-address-delete' pk=address.id %}" class="btn-remove-address">{% trans "Delete" %}</a></li>
+                                                <li><a href="{% url 'oscar:checkout:user-address-delete' pk=address.id %}" class="btn-remove-address">{% trans "Delete" %}</a></li>
                                             </ul>
                                         </div>
                                     </form>
@@ -69,13 +69,13 @@
 
     {% block new_address_form %}
         <div class="well">
-            <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
+            <form action="{% url 'oscar:checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=form style='horizontal' %}
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-8">
                         <button type="submit" class="btn btn-lg btn-primary" data-loading-text="{% trans 'Continuing...' %}">{% trans "Continue" %}</button>
-                        {% trans "or" %} <a href="{% url 'basket:summary' %}">{% trans "return to basket" %}</a>
+                        {% trans "or" %} <a href="{% url 'oscar:basket:summary' %}">{% trans "return to basket" %}</a>
                     </div>
                 </div>
             </form>

@@ -11,7 +11,7 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li class="active">{% trans "Pages" %}</li>
     </ul>
@@ -19,7 +19,7 @@
 
 {% block header %}
     <div class="page-header">
-        <a href="{% url 'dashboard:page-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Create new page" %}</a>
+        <a href="{% url 'oscar:dashboard:page-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Create new page" %}</a>
         <h1>{% trans "Pages" %}</h1>
     </div>
 {% endblock header %}
@@ -32,7 +32,7 @@
         <form action="." method="get" class="form-inline">
             {% include "dashboard/partials/form_fields_inline.html" with form=form %}
             <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
-            <a href="{% url 'dashboard:page-list' %}" class="btn btn-default">{% trans "Reset" %}</a>
+            <a href="{% url 'oscar:dashboard:page-list' %}" class="btn btn-default">{% trans "Reset" %}</a>
         </form>
     </div>
 
@@ -55,7 +55,7 @@
                 <tbody>
                     {% for page in flatpage_list %}
                         <tr>
-                            <td><a href="{% url 'dashboard:page-update' pk=page.id %}">{{ page.title}}</a></td>
+                            <td><a href="{% url 'oscar:dashboard:page-update' pk=page.id %}">{{ page.title}}</a></td>
                             <td><a title="{% trans "View on site" %}" href="{{ page.get_absolute_url }}">{{ page.url }}</a></td>
                             <td>
                                 <div class="btn-toolbar">
@@ -66,8 +66,8 @@
                                         </button>
                                         <ul class="dropdown-menu pull-right">
                                             <li><a href="{{ page.get_absolute_url }}">{% trans "View" %}</a></li>
-                                            <li><a id="edit_page_{{ page.id }}" href="{% url 'dashboard:page-update' pk=page.id %}">{% trans "Edit" %}</a></li>
-                                            <li><a id="delete_page_{{ page.id }}" href="{% url 'dashboard:page-delete' pk=page.id %}">{% trans "Delete" %}</a></li>
+                                            <li><a id="edit_page_{{ page.id }}" href="{% url 'oscar:dashboard:page-update' pk=page.id %}">{% trans "Edit" %}</a></li>
+                                            <li><a id="delete_page_{{ page.id }}" href="{% url 'oscar:dashboard:page-delete' pk=page.id %}">{% trans "Delete" %}</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -8,7 +8,7 @@ from oscar.apps.offer.applicator import Applicator  # backwards-compat  # noqa
 
 def range_anchor(range):
     return u'<a href="%s">%s</a>' % (
-        reverse('dashboard:range-update', kwargs={'pk': range.pk}),
+        reverse('oscar:dashboard:range-update', kwargs={'pk': range.pk}),
         range.name)
 
 

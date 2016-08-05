@@ -36,14 +36,14 @@ class RangeCreateView(CreateView):
 
     def get_success_url(self):
         if 'action' in self.request.POST:
-            return reverse('dashboard:range-products',
+            return reverse('oscar:dashboard:range-products',
                            kwargs={'pk': self.object.id})
         else:
             msg = render_to_string(
                 'dashboard/ranges/messages/range_saved.html',
                 {'range': self.object})
             messages.success(self.request, msg, extra_tags='safe noicon')
-            return reverse('dashboard:range-list')
+            return reverse('oscar:dashboard:range-list')
 
     def get_context_data(self, **kwargs):
         ctx = super(RangeCreateView, self).get_context_data(**kwargs)
@@ -64,14 +64,14 @@ class RangeUpdateView(UpdateView):
 
     def get_success_url(self):
         if 'action' in self.request.POST:
-            return reverse('dashboard:range-products',
+            return reverse('oscar:dashboard:range-products',
                            kwargs={'pk': self.object.id})
         else:
             msg = render_to_string(
                 'dashboard/ranges/messages/range_saved.html',
                 {'range': self.object})
             messages.success(self.request, msg, extra_tags='safe noicon')
-            return reverse('dashboard:range-list')
+            return reverse('oscar:dashboard:range-list')
 
     def get_context_data(self, **kwargs):
         ctx = super(RangeUpdateView, self).get_context_data(**kwargs)
@@ -87,7 +87,7 @@ class RangeDeleteView(DeleteView):
 
     def get_success_url(self):
         messages.warning(self.request, _("Range deleted"))
-        return reverse('dashboard:range-list')
+        return reverse('oscar:dashboard:range-list')
 
 
 class RangeProductListView(BulkEditMixin, ListView):

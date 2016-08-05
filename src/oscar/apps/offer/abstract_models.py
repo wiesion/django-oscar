@@ -163,7 +163,7 @@ class AbstractConditionalOffer(models.Model):
         return super(AbstractConditionalOffer, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('offer:detail', kwargs={'slug': self.slug})
+        return reverse('oscar:offer:detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name
@@ -812,7 +812,7 @@ class AbstractRange(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            'catalogue:range', kwargs={'slug': self.slug})
+            'oscar:catalogue:range', kwargs={'slug': self.slug})
 
     @cached_property
     def proxy(self):

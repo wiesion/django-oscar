@@ -85,7 +85,7 @@ class UpdateView(BulkEditMixin, generic.RedirectView):
 
     def get_success_response(self):
         return redirect_to_referrer(
-            self.request, 'customer:notifications-inbox')
+            self.request, 'oscar:customer:notifications-inbox')
 
     def archive(self, request, notifications):
         for notification in notifications:

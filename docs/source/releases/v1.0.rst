@@ -138,7 +138,7 @@ To add it to the dashboard menu, include this snippet in your
         ...
         {
             'label': _('Shipping charges'),
-            'url_name': 'dashboard:shipping-method-list',
+            'url_name': 'oscar:dashboard:shipping-method-list',
         },
         ...
     ]

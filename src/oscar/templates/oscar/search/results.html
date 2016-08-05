@@ -68,7 +68,7 @@
             <p>
                 {% trans "Found <strong>0</strong> results." %}
                 {% if suggestion %}
-                    {% url 'search:search' as search_url %}
+                    {% url 'oscar:search:search' as search_url %}
                     {% blocktrans %}
                         Did you mean <a href="{{ search_url }}?q={{ suggestion }}">"{{ suggestion }}"</a>?
                     {% endblocktrans %}

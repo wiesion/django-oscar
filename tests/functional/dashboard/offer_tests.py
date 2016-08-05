@@ -15,7 +15,7 @@ class TestAnAdmin(testcases.WebTestCase):
             name="All products", includes_all_products=True)
 
     def test_can_create_an_offer(self):
-        list_page = self.get(reverse('dashboard:offer-list'))
+        list_page = self.get(reverse('oscar:dashboard:offer-list'))
 
         metadata_page = list_page.click('Create new offer')
         metadata_form = metadata_page.form
@@ -46,7 +46,7 @@ class TestAnAdmin(testcases.WebTestCase):
     def test_offer_list_page(self):
         offer = factories.create_offer(name="Offer A")
 
-        list_page = self.get(reverse('dashboard:offer-list'))
+        list_page = self.get(reverse('oscar:dashboard:offer-list'))
         form = list_page.forms[0]
         form['name'] = "I do not exist"
         res = form.submit()
@@ -71,7 +71,7 @@ class TestAnAdmin(testcases.WebTestCase):
     def test_can_update_an_existing_offer(self):
         factories.create_offer(name="Offer A")
 
-        list_page = self.get(reverse('dashboard:offer-list'))
+        list_page = self.get(reverse('oscar:dashboard:offer-list'))
         detail_page = list_page.click('Offer A')
 
         metadata_page = detail_page.click(linkid="edit_metadata")
@@ -94,20 +94,20 @@ class TestAnAdmin(testcases.WebTestCase):
         # steps
         offer = factories.create_offer(name="Offer A")
         name_and_description_page = self.get(
-            reverse('dashboard:offer-metadata', kwargs={'pk': offer.pk}))
+            reverse('oscar:dashboard:offer-metadata', kwargs={'pk': offer.pk}))
         res = name_and_description_page.form.submit('save').follow()
         self.assertEqual(200, res.status_code)
 
     def test_can_jump_to_intermediate_step_for_existing_offer(self):
         offer = factories.create_offer()
-        url = reverse('dashboard:offer-condition',
+        url = reverse('oscar:dashboard:offer-condition',
                       kwargs={'pk': offer.id})
         self.assertEqual(200, self.get(url).status_code)
 
     def test_cannot_jump_to_intermediate_step(self):
-        for url_name in ('dashboard:offer-condition',
-                         'dashboard:offer-benefit',
-                         'dashboard:offer-restrictions'):
+        for url_name in ('oscar:dashboard:offer-condition',
+                         'oscar:dashboard:offer-benefit',
+                         'oscar:dashboard:offer-restrictions'):
             response = self.get(reverse(url_name))
             self.assertEqual(302, response.status_code)
 
@@ -116,7 +116,7 @@ class TestAnAdmin(testcases.WebTestCase):
         offer = factories.create_offer()
         self.assertFalse(offer.is_suspended)
 
-        detail_page = self.get(reverse('dashboard:offer-detail',
+        detail_page = self.get(reverse('oscar:dashboard:offer-detail',
                                        kwargs={'pk': offer.pk}))
         form = detail_page.forms['status_form']
         form.submit('suspend')
@@ -130,7 +130,7 @@ class TestAnAdmin(testcases.WebTestCase):
         offer.suspend()
         self.assertTrue(offer.is_suspended)
 
-        detail_page = self.get(reverse('dashboard:offer-detail',
+        detail_page = self.get(reverse('oscar:dashboard:offer-detail',
                                        kwargs={'pk': offer.pk}))
         form = detail_page.forms['status_form']
         form.submit('unsuspend')

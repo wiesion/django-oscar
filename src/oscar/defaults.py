@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 OSCAR_SHOP_NAME = 'Oscar'
 OSCAR_SHOP_TAGLINE = ''
-OSCAR_HOMEPAGE = reverse_lazy('promotions:home')
+OSCAR_HOMEPAGE = reverse_lazy('oscar:promotions:home')
 
 # Basket settings
 OSCAR_BASKET_COOKIE_LIFETIME = 7 * 24 * 60 * 60
@@ -69,7 +69,7 @@ OSCAR_ALLOW_ANON_REVIEWS = True
 OSCAR_MODERATE_REVIEWS = False
 
 # Accounts
-OSCAR_ACCOUNTS_REDIRECT_URL = 'customer:profile-view'
+OSCAR_ACCOUNTS_REDIRECT_URL = 'oscar:customer:profile-view'
 
 # This enables sending alert notifications/emails instantly when products get
 # back in stock by listening to stock record update signals.
@@ -100,7 +100,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
     {
         'label': _('Dashboard'),
         'icon': 'icon-th-list',
-        'url_name': 'dashboard:index',
+        'url_name': 'oscar:dashboard:index',
     },
     {
         'label': _('Catalogue'),
@@ -108,23 +108,23 @@ OSCAR_DASHBOARD_NAVIGATION = [
         'children': [
             {
                 'label': _('Products'),
-                'url_name': 'dashboard:catalogue-product-list',
+                'url_name': 'oscar:dashboard:catalogue-product-list',
             },
             {
                 'label': _('Product Types'),
-                'url_name': 'dashboard:catalogue-class-list',
+                'url_name': 'oscar:dashboard:catalogue-class-list',
             },
             {
                 'label': _('Categories'),
-                'url_name': 'dashboard:catalogue-category-list',
+                'url_name': 'oscar:dashboard:catalogue-category-list',
             },
             {
                 'label': _('Ranges'),
-                'url_name': 'dashboard:range-list',
+                'url_name': 'oscar:dashboard:range-list',
             },
             {
                 'label': _('Low stock alerts'),
-                'url_name': 'dashboard:stock-alert-list',
+                'url_name': 'oscar:dashboard:stock-alert-list',
             },
         ]
     },
@@ -134,15 +134,15 @@ OSCAR_DASHBOARD_NAVIGATION = [
         'children': [
             {
                 'label': _('Orders'),
-                'url_name': 'dashboard:order-list',
+                'url_name': 'oscar:dashboard:order-list',
             },
             {
                 'label': _('Statistics'),
-                'url_name': 'dashboard:order-stats',
+                'url_name': 'oscar:dashboard:order-stats',
             },
             {
                 'label': _('Partners'),
-                'url_name': 'dashboard:partner-list',
+                'url_name': 'oscar:dashboard:partner-list',
             },
             # The shipping method dashboard is disabled by default as it might
             # be confusing. Weight-based shipping methods aren't hooked into
@@ -150,7 +150,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
             # customising the repository slightly more difficult).
             # {
             #     'label': _('Shipping charges'),
-            #     'url_name': 'dashboard:shipping-method-list',
+            #     'url_name': 'oscar:dashboard:shipping-method-list',
             # },
         ]
     },
@@ -160,11 +160,11 @@ OSCAR_DASHBOARD_NAVIGATION = [
         'children': [
             {
                 'label': _('Customers'),
-                'url_name': 'dashboard:users-index',
+                'url_name': 'oscar:dashboard:users-index',
             },
             {
                 'label': _('Stock alert requests'),
-                'url_name': 'dashboard:user-alert-list',
+                'url_name': 'oscar:dashboard:user-alert-list',
             },
         ]
     },
@@ -174,11 +174,11 @@ OSCAR_DASHBOARD_NAVIGATION = [
         'children': [
             {
                 'label': _('Offers'),
-                'url_name': 'dashboard:offer-list',
+                'url_name': 'oscar:dashboard:offer-list',
             },
             {
                 'label': _('Vouchers'),
-                'url_name': 'dashboard:voucher-list',
+                'url_name': 'oscar:dashboard:voucher-list',
             },
         ],
     },
@@ -188,30 +188,30 @@ OSCAR_DASHBOARD_NAVIGATION = [
         'children': [
             {
                 'label': _('Content blocks'),
-                'url_name': 'dashboard:promotion-list',
+                'url_name': 'oscar:dashboard:promotion-list',
             },
             {
                 'label': _('Content blocks by page'),
-                'url_name': 'dashboard:promotion-list-by-page',
+                'url_name': 'oscar:dashboard:promotion-list-by-page',
             },
             {
                 'label': _('Pages'),
-                'url_name': 'dashboard:page-list',
+                'url_name': 'oscar:dashboard:page-list',
             },
             {
                 'label': _('Email templates'),
-                'url_name': 'dashboard:comms-list',
+                'url_name': 'oscar:dashboard:comms-list',
             },
             {
                 'label': _('Reviews'),
-                'url_name': 'dashboard:reviews-list',
+                'url_name': 'oscar:dashboard:reviews-list',
             },
         ]
     },
     {
         'label': _('Reports'),
         'icon': 'icon-bar-chart',
-        'url_name': 'dashboard:reports-index',
+        'url_name': 'oscar:dashboard:reports-index',
     },
 ]
 OSCAR_DASHBOARD_DEFAULT_ACCESS_FUNCTION = 'oscar.apps.dashboard.nav.default_access_fn'  # noqa

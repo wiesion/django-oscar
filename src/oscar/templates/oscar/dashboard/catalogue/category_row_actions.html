@@ -8,17 +8,17 @@
         </button>
         <ul class="nav dropdown-menu pull-right">
             <li>
-                <a href="{% url 'dashboard:catalogue-category-update' pk=record.id %}">
+                <a href="{% url 'oscar:dashboard:catalogue-category-update' pk=record.id %}">
                     {% trans "Edit category" %}
                 </a>
             </li>
             <li>
-                <a href="{% url 'dashboard:catalogue-category-create-child' parent=record.pk %}">
+                <a href="{% url 'oscar:dashboard:catalogue-category-create-child' parent=record.pk %}">
                     {% trans "Add child category" %}
                 </a>
             </li>
             <li{% if not record.has_children %} class="disabled"{% endif %}>
-                <a href="{% url 'dashboard:catalogue-category-detail-list' pk=record.pk %}">
+                <a href="{% url 'oscar:dashboard:catalogue-category-detail-list' pk=record.pk %}">
                     {% trans "Edit children" %}
                 </a>
             </li>
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'dashboard:catalogue-category-delete' pk=record.id %}">
+                <a href="{% url 'oscar:dashboard:catalogue-category-delete' pk=record.id %}">
                     {% trans "Delete" %}
                 </a>
             </li>

@@ -32,13 +32,13 @@ class CheckoutMixin(object):
     def add_voucher_to_basket(self, voucher=None):
         if voucher is None:
             voucher = factories.create_voucher()
-        basket_page = self.get(reverse('basket:summary'))
+        basket_page = self.get(reverse('oscar:basket:summary'))
         form = basket_page.forms['voucher_form']
         form['code'] = voucher.code
         form.submit()
 
     def enter_guest_details(self, email='guest@example.com'):
-        index_page = self.get(reverse('checkout:index'))
+        index_page = self.get(reverse('oscar:checkout:index'))
         index_page.form['username'] = email
         index_page.form.select('options', GatewayForm.GUEST)
         return index_page.form.submit()
@@ -49,7 +49,7 @@ class CheckoutMixin(object):
 
     def enter_shipping_address(self):
         self.create_shipping_country()
-        address_page = self.get(reverse('checkout:shipping-address'))
+        address_page = self.get(reverse('oscar:checkout:shipping-address'))
         form = address_page.forms['new_shipping_address']
         form['first_name'] = 'John'
         form['last_name'] = 'Doe'
@@ -59,11 +59,11 @@ class CheckoutMixin(object):
         form.submit()
 
     def enter_shipping_method(self):
-        self.get(reverse('checkout:shipping-method'))
+        self.get(reverse('oscar:checkout:shipping-method'))
 
     def place_order(self):
         payment_details = self.get(
-            reverse('checkout:shipping-method')).follow().follow()
+            reverse('oscar:checkout:shipping-method')).follow().follow()
         preview = payment_details.click(linkid="view_preview")
         return preview.forms['place_order_form'].submit().follow()
 
@@ -73,7 +73,7 @@ class CheckoutMixin(object):
             self.enter_guest_details('hello@egg.com')
         self.enter_shipping_address()
         return self.get(
-            reverse('checkout:shipping-method')).follow().follow()
+            reverse('oscar:checkout:shipping-method')).follow().follow()
 
     def ready_to_place_an_order(self, is_guest=False):
         payment_details = self.reach_payment_details_page(is_guest)

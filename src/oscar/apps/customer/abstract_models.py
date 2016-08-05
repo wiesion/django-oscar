@@ -415,8 +415,7 @@ class AbstractProductAlert(models.Model):
         return hashlib.sha1((salt + self.email).encode('utf8')).hexdigest()
 
     def get_confirm_url(self):
-        return reverse('customer:alerts-confirm', kwargs={'key': self.key})
+        return reverse('oscar:customer:alerts-confirm', kwargs={'key': self.key})
 
     def get_cancel_url(self):
-        return reverse('customer:alerts-cancel-by-key', kwargs={'key':
-                                                                self.key})
+        return reverse('oscar:customer:alerts-cancel-by-key', kwargs={'key': self.key})

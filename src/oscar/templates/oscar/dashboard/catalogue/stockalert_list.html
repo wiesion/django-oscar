@@ -11,7 +11,7 @@
 {% block breadcrumbs %}
 <ul class="breadcrumb">
     <li>
-        <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
     </li>
     <li class="active">{% trans "Stock alerts" %}</li>
 </ul>
@@ -34,9 +34,9 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{% url 'dashboard:stock-alert-list' %}">{% trans "All" %}</a></li>
-                <li><a href="{% url 'dashboard:stock-alert-list' %}?status=Open">{% trans "Open" %}</a></li>
-                <li><a href="{% url 'dashboard:stock-alert-list' %}?status=Closed">{% trans "Closed" %}</a></li>
+                <li><a href="{% url 'oscar:dashboard:stock-alert-list' %}">{% trans "All" %}</a></li>
+                <li><a href="{% url 'oscar:dashboard:stock-alert-list' %}?status=Open">{% trans "Open" %}</a></li>
+                <li><a href="{% url 'oscar:dashboard:stock-alert-list' %}?status=Closed">{% trans "Closed" %}</a></li>
             </ul>
         </div>
     </div>
@@ -56,7 +56,7 @@
     {% for alert in alerts %}
     <tr>
         <td>
-            <a href="{% url 'dashboard:catalogue-product' alert.stockrecord.product.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">
+            <a href="{% url 'oscar:dashboard:catalogue-product' alert.stockrecord.product.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">
                 {{ alert.stockrecord.product.get_title }}
             </a>
         </td>
@@ -66,7 +66,7 @@
         <td>{{ alert.date_created }}</td>
         <td>{{ alert.status }}</td>
         <td>
-            <a class="btn btn-info" href="{% url 'dashboard:catalogue-product' pk=alert.stockrecord.product.id %}">{% trans "Update" %}</a>
+            <a class="btn btn-info" href="{% url 'oscar:dashboard:catalogue-product' pk=alert.stockrecord.product.id %}">{% trans "Update" %}</a>
         </td>
     </tr>
     {% endfor %}

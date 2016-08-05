@@ -6,10 +6,10 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-        <a href="{% url 'dashboard:catalogue-class-list' %}">{% trans "Product type" %}</a>
+        <a href="{% url 'oscar:dashboard:catalogue-class-list' %}">{% trans "Product type" %}</a>
     </li>
     <li class="active">{% trans "Delete product type?" %}</li>
 </ul>
@@ -34,7 +34,7 @@
             </p>
             <div class="form-actions">
                 <button type="submit" class="btn btn-danger" data-loading-text="{% trans 'Deleting...' %}">{% trans "Delete" %}</button>
-            {% trans "or" %} <a href="{% url 'dashboard:catalogue-class-list' %}">{% trans "cancel" %}</a>
+            {% trans "or" %} <a href="{% url 'oscar:dashboard:catalogue-class-list' %}">{% trans "cancel" %}</a>
             </div>
         </form>
     {% endif %}

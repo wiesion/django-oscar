@@ -14,14 +14,14 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:catalogue-product-list' %}">{% trans "Products" %}</a>
+            <a href="{% url 'oscar:dashboard:catalogue-product-list' %}">{% trans "Products" %}</a>
         </li>
         {% if parent %}
             <li>
-                <a href="{% url 'dashboard:catalogue-product' parent.id %}">
+                <a href="{% url 'oscar:dashboard:catalogue-product' parent.id %}">
                     {{ parent.title }}
                 </a>
             </li>
@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-info">
-                        {% url 'dashboard:catalogue-product' pk=parent.id as parent_url %}
+                        {% url 'oscar:dashboard:catalogue-product' pk=parent.id as parent_url %}
                         {% blocktrans with title=parent.title %}
                             You are currently editing a product variant of
                             <a href="{{ parent_url }}">{{ title }}</a>.
@@ -261,10 +261,10 @@
                                                     <td>{{ child.attribute_summary }}</td>
                                                     <td>{{ child.stockrecords.count }}</td>
                                                     <td>
-                                                        <a href="{% url 'dashboard:catalogue-product' pk=child.id %}" class="btn btn-primary">
+                                                        <a href="{% url 'oscar:dashboard:catalogue-product' pk=child.id %}" class="btn btn-primary">
                                                             {% trans "Edit" %}
                                                         </a>
-                                                        <a href="{% url 'dashboard:catalogue-product-delete' pk=child.id %}" class="btn btn-danger">
+                                                        <a href="{% url 'oscar:dashboard:catalogue-product-delete' pk=child.id %}" class="btn btn-danger">
                                                             {% trans "Delete" %}
                                                         </a>
                                                     </td>
@@ -316,7 +316,7 @@
             <div class="fixed-actions-group">
                 <div class="form-group">
                     <div class="pull-right">
-                        <a href="{% url 'dashboard:catalogue-product-list' %}">
+                        <a href="{% url 'oscar:dashboard:catalogue-product-list' %}">
                             {% trans "Cancel" %}
                         </a>
                         {% trans "or" %}

@@ -47,7 +47,7 @@ class AnonAddToBasketViewTests(TestCase):
     def setUp(self):
         self.product = create_product(
             price=D('10.00'), num_in_stock=10)
-        url = reverse('basket:add', kwargs={'pk': self.product.pk})
+        url = reverse('oscar:basket:add', kwargs={'pk': self.product.pk})
         post_params = {'product_id': self.product.id,
                        'action': 'add',
                        'quantity': 1}
@@ -68,7 +68,7 @@ class AnonAddToBasketViewTests(TestCase):
 class BasketSummaryViewTests(TestCase):
 
     def setUp(self):
-        url = reverse('basket:summary')
+        url = reverse('oscar:basket:summary')
         self.response = self.client.get(url)
 
     def test_shipping_method_in_context(self):
@@ -99,7 +99,7 @@ class BasketThresholdTest(TestCase):
 
     def test_adding_more_than_threshold_raises(self):
         dummy_product = create_product(price=D('10.00'), num_in_stock=10)
-        url = reverse('basket:add', kwargs={'pk': dummy_product.pk})
+        url = reverse('oscar:basket:add', kwargs={'pk': dummy_product.pk})
         post_params = {'product_id': dummy_product.id,
                        'action': 'add',
                        'quantity': 2}
@@ -157,7 +157,7 @@ class SavedBasketTests(TestCase):
         saved_basket.strategy = basket.strategy
         add_product(saved_basket, product=product)
 
-        response = client.get(reverse('basket:summary'))
+        response = client.get(reverse('oscar:basket:summary'))
         saved_formset = response.context['saved_formset']
         saved_form = saved_formset.forms[0]
 
@@ -168,10 +168,10 @@ class SavedBasketTests(TestCase):
             saved_form.add_prefix('id'): saved_form.initial['id'],
             saved_form.add_prefix('move_to_basket'): True,
         }
-        response = client.post(reverse('basket:saved'), data=data)
+        response = client.post(reverse('oscar:basket:saved'), data=data)
         self.assertEqual(Basket.open.get(id=basket.id).lines.get(
             product=product).quantity, 2)
-        self.assertRedirects(response, reverse('basket:summary'))
+        self.assertRedirects(response, reverse('oscar:basket:summary'))
 
     def test_moving_from_saved_basket_more_than_stocklevel_raises(self):
         user = User.objects.create_user(username='test', password='pass',
@@ -186,7 +186,7 @@ class SavedBasketTests(TestCase):
         saved_basket, created = Basket.saved.get_or_create(owner=user)
         add_product(saved_basket, product=product)
 
-        response = client.get(reverse('basket:summary'))
+        response = client.get(reverse('oscar:basket:summary'))
         saved_formset = response.context['saved_formset']
         saved_form = saved_formset.forms[0]
 
@@ -197,7 +197,7 @@ class SavedBasketTests(TestCase):
             saved_form.add_prefix('id'): saved_form.initial['id'],
             saved_form.add_prefix('move_to_basket'): True,
         }
-        response = client.post(reverse('basket:saved'), data=data)
+        response = client.post(reverse('oscar:basket:saved'), data=data)
         # we can't add more than stock level into basket
         self.assertEqual(Basket.open.get(id=basket.id).lines.get(product=product).quantity, 1)
-        self.assertRedirects(response, reverse('basket:summary'))
+        self.assertRedirects(response, reverse('oscar:basket:summary'))

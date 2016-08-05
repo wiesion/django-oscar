@@ -12,7 +12,7 @@ class TestDashboardIndexForAnonUser(WebTestCase):
     is_anonymous = True
 
     def test_is_not_available(self):
-        response = self.get(reverse('dashboard:index')).follow()
+        response = self.get(reverse('oscar:dashboard:index')).follow()
         self.assertContains(response, 'username', status_code=200)
 
 
@@ -20,9 +20,9 @@ class TestDashboardIndexForStaffUser(WebTestCase):
     is_staff = True
 
     def test_is_available(self):
-        urls = ('dashboard:index',
-                'dashboard:order-list',
-                'dashboard:users-index',)
+        urls = ('oscar:dashboard:index',
+                'oscar:dashboard:order-list',
+                'oscar:dashboard:users-index',)
         for name in urls:
             response = self.get(reverse(name))
             self.assertTrue('Password' not in response.content.decode('utf8'))
@@ -50,7 +50,7 @@ class TestDashboardIndexForStaffUser(WebTestCase):
         self.assertEqual(report['max_revenue'], D('60'))
 
     def test_has_stats_vars_in_context(self):
-        response = self.get(reverse('dashboard:index'))
+        response = self.get(reverse('oscar:dashboard:index'))
 
         self.assertInContext(response, 'total_orders_last_day')
         self.assertInContext(response, 'total_lines_last_day')

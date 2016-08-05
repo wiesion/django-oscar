@@ -83,7 +83,7 @@
     <div class="col-md-4">
         <table class="table table-striped table-bordered table-hover">
             <caption>
-                <a href="{% url 'dashboard:order-list' %}" class="btn btn-default pull-right">
+                <a href="{% url 'oscar:dashboard:order-list' %}" class="btn btn-default pull-right">
                     <i class="icon-shopping-cart"></i> {% trans "Manage" %}
                 </a>
                 <i class="icon-shopping-cart icon-large"></i>{% trans "Orders - All Time" %}
@@ -132,12 +132,12 @@
             <caption>
                 <div class="btn-toolbar pull-right">
                   <div class="btn-group">
-                    <a href="{% url 'dashboard:catalogue-product-list' %}" class="btn btn-default">
+                    <a href="{% url 'oscar:dashboard:catalogue-product-list' %}" class="btn btn-default">
                         <i class="icon-sitemap"></i> {% trans "Manage" %}
                     </a>
                   </div>
                   <div class="btn-group">
-                    <a href="{% url 'dashboard:stock-alert-list' %}" class="btn btn-default">
+                    <a href="{% url 'oscar:dashboard:stock-alert-list' %}" class="btn btn-default">
                         <i class="icon-sitemap"></i> {% trans "View Stock Alerts" %}
                     </a>
                   </div>

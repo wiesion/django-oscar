@@ -8,7 +8,7 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li class="active">{% trans "Ranges" %}</li>
     </ul>
@@ -16,7 +16,7 @@
 
 {% block header %}
     <div class="page-header">
-        <a href="{% url 'dashboard:range-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Create new range" %}</a>
+        <a href="{% url 'oscar:dashboard:range-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Create new range" %}</a>
         <h1>{% trans "Ranges" %}</h1>
     </div>
 {% endblock header %}
@@ -40,7 +40,7 @@
                     <tr>
                         <td>
                             {% if range.is_editable %}
-                                <a href="{% url 'dashboard:range-update' pk=range.id %}">{{ range.name }}</a>
+                                <a href="{% url 'oscar:dashboard:range-update' pk=range.id %}">{{ range.name }}</a>
                             {% else %}
                                 {{ range.name }}
                             {% endif %}
@@ -66,15 +66,15 @@
                                     </button>
                                     <ul class="dropdown-menu pull-right">
                                         {% if range.is_editable %}
-                                            <li><a href="{% url 'dashboard:range-update' pk=range.id %}">{% trans "Edit" %}</a></li>
+                                            <li><a href="{% url 'oscar:dashboard:range-update' pk=range.id %}">{% trans "Edit" %}</a></li>
                                             {% if not range.includes_all_products %}
-                                                <li><a href="{% url 'dashboard:range-products' pk=range.id %}">{% trans "Edit products" %}</a></li>
+                                                <li><a href="{% url 'oscar:dashboard:range-products' pk=range.id %}">{% trans "Edit products" %}</a></li>
                                             {% endif %}
                                         {% endif %}
                                         {% if range.is_public %}
                                             <li><a href="{{ range.get_absolute_url }}">{% trans "View on site" %}</a></li>
                                         {% endif %}
-                                        <li><a href="{% url 'dashboard:range-delete' pk=range.id %}">{% trans "Delete" %}</a></li>
+                                        <li><a href="{% url 'oscar:dashboard:range-delete' pk=range.id %}">{% trans "Delete" %}</a></li>
                                     </ul>
                                 </div>
                             </div>

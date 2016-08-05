@@ -24,7 +24,7 @@ class TestASignedInUser(WebTestCase):
         self.order = create_order(user=self.user)
 
     def test_can_view_their_profile(self):
-        response = self.app.get(reverse('customer:profile-view'),
+        response = self.app.get(reverse('oscar:customer:profile-view'),
                                 user=self.user)
         self.assertEqual(200, response.status_code)
         self.assertTrue(self.email in response.content.decode('utf8'))
@@ -33,7 +33,7 @@ class TestASignedInUser(WebTestCase):
         user_id = self.user.id
         order_id = self.order.id
 
-        profile = self.app.get(reverse('customer:profile-view'),
+        profile = self.app.get(reverse('oscar:customer:profile-view'),
                                user=self.user)
         delete_confirm = profile.click(linkid="delete_profile")
         form = delete_confirm.forms['delete_profile_form']
@@ -50,17 +50,17 @@ class TestASignedInUser(WebTestCase):
         self.assertEqual(1, len(orders))
 
     def test_can_update_their_name(self):
-        profile_form_page = self.app.get(reverse('customer:profile-update'),
+        profile_form_page = self.app.get(reverse('oscar:customer:profile-update'),
                                          user=self.user)
         self.assertEqual(200, profile_form_page.status_code)
         form = profile_form_page.forms['profile_form']
         form['first_name'] = 'Barry'
         form['last_name'] = 'Chuckle'
         response = form.submit()
-        self.assertRedirects(response, reverse('customer:profile-view'))
+        self.assertRedirects(response, reverse('oscar:customer:profile-view'))
 
     def test_can_update_their_email_address_and_name(self):
-        profile_form_page = self.app.get(reverse('customer:profile-update'),
+        profile_form_page = self.app.get(reverse('oscar:customer:profile-update'),
                                          user=self.user)
         self.assertEqual(200, profile_form_page.status_code)
         form = profile_form_page.forms['profile_form']
@@ -68,7 +68,7 @@ class TestASignedInUser(WebTestCase):
         form['first_name'] = 'Barry'
         form['last_name'] = 'Chuckle'
         response = form.submit()
-        self.assertRedirects(response, reverse('customer:profile-view'))
+        self.assertRedirects(response, reverse('oscar:customer:profile-view'))
 
         user = User.objects.get(id=self.user.id)
         self.assertEqual('new@example.com', user.email)
@@ -84,7 +84,7 @@ class TestASignedInUser(WebTestCase):
 
         for email in ['new@example.com', 'New@Example.com']:
             profile_form_page = self.app.get(
-                reverse('customer:profile-update'), user=self.user)
+                reverse('oscar:customer:profile-update'), user=self.user)
             form = profile_form_page.forms['profile_form']
             form['email'] = email
             form['first_name'] = 'Barry'
@@ -101,20 +101,20 @@ class TestASignedInUser(WebTestCase):
 
     def test_can_change_their_password(self):
         new_password = 'bubblesgopop'
-        password_form_page = self.app.get(reverse('customer:change-password'),
+        password_form_page = self.app.get(reverse('oscar:customer:change-password'),
                                           user=self.user)
         self.assertEqual(200, password_form_page.status_code)
         form = password_form_page.forms['change_password_form']
         form['old_password'] = self.password
         form['new_password1'] = form['new_password2'] = new_password
         response = form.submit()
-        self.assertRedirects(response, reverse('customer:profile-view'))
+        self.assertRedirects(response, reverse('oscar:customer:profile-view'))
         updated_user = User.objects.get(pk=self.user.pk)
         self.assertTrue(updated_user.check_password(new_password))
 
     def test_can_reorder_a_previous_order(self):
         order_history_page = self.app.get(
-            reverse('customer:order', args=[self.order.number]), user=self.user)
+            reverse('oscar:customer:order', args=[self.order.number]), user=self.user)
         form = order_history_page.forms['order_form_%d' % self.order.id]
         form.submit()
 
@@ -124,7 +124,7 @@ class TestASignedInUser(WebTestCase):
 
     def test_can_reorder_a_previous_order_line(self):
         order_history_page = self.app.get(
-            reverse('customer:order',
+            reverse('oscar:customer:order',
                     kwargs={'order_number': self.order.number}),
             user=self.user)
         line = self.order.lines.all()[0]
@@ -141,7 +141,7 @@ class TestASignedInUser(WebTestCase):
         line.stockrecord.save()
 
         order_history_page = self.app.get(
-            reverse('customer:order', args=[self.order.number]),
+            reverse('oscar:customer:order', args=[self.order.number]),
                     user=self.user)
         form = order_history_page.forms['order_form_%d' % self.order.id]
         form.submit()
@@ -167,7 +167,7 @@ class TestReorderingOrderLines(WebTestCase):
         self.assertEqual(len(basket.all_lines()), 1)
 
         # Try to reorder the whole order
-        order_page = self.get(reverse('customer:order', args=(order.number,)))
+        order_page = self.get(reverse('oscar:customer:order', args=(order.number,)))
         order_page.forms['order_form_%s' % order.id].submit()
 
         self.assertEqual(len(basket.all_lines()), 1)
@@ -187,7 +187,7 @@ class TestReorderingOrderLines(WebTestCase):
         self.assertEqual(len(basket.all_lines()), 1)
 
         # Try to reorder a line
-        order_page = self.get(reverse('customer:order', args=(order.number,)))
+        order_page = self.get(reverse('oscar:customer:order', args=(order.number,)))
         order_page.forms['line_form_%s' % line.id].submit()
 
         self.assertEqual(len(basket.all_lines()), 1)

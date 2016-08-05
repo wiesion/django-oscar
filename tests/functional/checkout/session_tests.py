@@ -14,7 +14,7 @@ class TestCheckoutOfDigitalGoods(CheckoutMixin, testcases.WebTestCase):
 
     def test_buying_a_digital_good_doesnt_error(self):
         payment_details_page = self.get(
-            reverse('checkout:index')).maybe_follow()
+            reverse('oscar:checkout:index')).maybe_follow()
         preview_page = payment_details_page.click(linkid="view_preview")
         response = preview_page.forms['place_order_form'].submit().follow()
         self.assertIsOk(response)

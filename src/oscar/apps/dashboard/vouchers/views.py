@@ -116,7 +116,7 @@ class VoucherCreateView(generic.FormView):
 
     def get_success_url(self):
         messages.success(self.request, _("Voucher created"))
-        return reverse('dashboard:voucher-list')
+        return reverse('oscar:dashboard:voucher-list')
 
 
 class VoucherStatsView(generic.DetailView):
@@ -192,7 +192,7 @@ class VoucherUpdateView(generic.FormView):
 
     def get_success_url(self):
         messages.success(self.request, _("Voucher updated"))
-        return reverse('dashboard:voucher-list')
+        return reverse('oscar:dashboard:voucher-list')
 
 
 class VoucherDeleteView(generic.DeleteView):
@@ -202,4 +202,4 @@ class VoucherDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         messages.warning(self.request, _("Voucher deleted"))
-        return reverse('dashboard:voucher-list')
+        return reverse('oscar:dashboard:voucher-list')

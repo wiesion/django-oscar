@@ -30,7 +30,7 @@
                 {% if shipping_address %}
                     <div class="well well-info">
                         {% block shipping_address_actions %}
-                            <a href="{% url 'checkout:shipping-address' %}" class="pull-right">
+                            <a href="{% url 'oscar:checkout:shipping-address' %}" class="pull-right">
                                 {% trans "Change" %}
                             </a>
                         {% endblock %}
@@ -61,7 +61,7 @@
                 {% if shipping_method %}
                     <div class="well well-info">
                         {% block shipping_method_actions %}
-                            <a href="{% url 'checkout:shipping-method' %}" class="pull-right">
+                            <a href="{% url 'oscar:checkout:shipping-method' %}" class="pull-right">
                                 {% trans "Change" %}
                             </a>
                         {% endblock %}
@@ -84,7 +84,7 @@
                     <h2>{% trans "Payment" %}</h2>
                 </div>
                 <div class="well well-success">
-                    <a href="{% url 'checkout:payment-details' %}" class="pull-right">
+                    <a href="{% url 'oscar:checkout:payment-details' %}" class="pull-right">
                         {% trans "Change" %}
                     </a>
                     <h3>{% trans "Payment" %}</h3>
@@ -97,7 +97,7 @@
     {% block order_contents %}
         <div class="sub-header">
             {% block order_contents_actions %}
-                <a href="{% url 'basket:summary' %}" class="pull-right">
+                <a href="{% url 'oscar:basket:summary' %}" class="pull-right">
                     {% trans "Edit order contents" %}
                 </a>
             {% endblock %}

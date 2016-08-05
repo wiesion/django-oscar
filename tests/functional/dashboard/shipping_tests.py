@@ -10,7 +10,7 @@ class TestShippingMethodDashboard(WebTestCase):
     is_staff = True
 
     def test_for_smoke(self):
-        list_page = self.get(reverse('dashboard:shipping-method-list'))
+        list_page = self.get(reverse('oscar:dashboard:shipping-method-list'))
 
         # Create a shipping method
         create_page = list_page.click(linkid="create_new_shipping_method")

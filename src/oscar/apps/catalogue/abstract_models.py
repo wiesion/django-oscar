@@ -201,7 +201,7 @@ class AbstractCategory(MP_Node):
         url = cache.get(cache_key)
         if not url:
             url = reverse(
-                'catalogue:category',
+                'oscar:catalogue:category',
                 kwargs={'category_slug': self.full_slug, 'pk': self.pk})
             cache.set(cache_key, url)
         return url
@@ -364,7 +364,7 @@ class AbstractProduct(models.Model):
         """
         Return a product's absolute url
         """
-        return reverse('catalogue:detail',
+        return reverse('oscar:catalogue:detail',
                        kwargs={'product_slug': self.slug, 'pk': self.id})
 
     def clean(self):

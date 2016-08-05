@@ -107,7 +107,7 @@ class PageCreateView(generic.CreateView):
         msg = render_to_string('oscar/dashboard/pages/messages/saved.html',
                                {'page': page})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:page-list')
+        return reverse('oscar:dashboard:page-list')
 
 
 class PageUpdateView(generic.UpdateView):
@@ -136,7 +136,7 @@ class PageUpdateView(generic.UpdateView):
         msg = render_to_string('oscar/dashboard/pages/messages/saved.html',
                                {'page': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:page-list')
+        return reverse('oscar:dashboard:page-list')
 
 
 class PageDeleteView(generic.DeleteView):
@@ -146,4 +146,4 @@ class PageDeleteView(generic.DeleteView):
     def get_success_url(self):
         messages.success(
             self.request, _("Deleted page '%s'") % self.object.title)
-        return reverse('dashboard:page-list')
+        return reverse('oscar:dashboard:page-list')

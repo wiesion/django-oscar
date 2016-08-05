@@ -11,8 +11,6 @@ from oscar.views.decorators import login_forbidden
 
 
 class Shop(Application):
-    name = None
-
     catalogue_app = get_class('catalogue.app', 'application')
     customer_app = get_class('customer.app', 'application')
     basket_app = get_class('basket.app', 'application')
@@ -41,7 +39,7 @@ class Shop(Application):
             url(r'^password-reset/$',
                 login_forbidden(auth_views.password_reset),
                 {'password_reset_form': self.password_reset_form,
-                 'post_reset_redirect': reverse_lazy('password-reset-done')},
+                 'post_reset_redirect': reverse_lazy('oscar:password-reset-done')},
                 name='password-reset'),
             url(r'^password-reset/done/$',
                 login_forbidden(auth_views.password_reset_done),
@@ -49,7 +47,7 @@ class Shop(Application):
             url(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
                 login_forbidden(auth_views.password_reset_confirm),
                 {
-                    'post_reset_redirect': reverse_lazy('password-reset-complete'),
+                    'post_reset_redirect': reverse_lazy('oscar:password-reset-complete'),
                     'set_password_form': self.set_password_form,
                 },
                 name='password-reset-confirm'),

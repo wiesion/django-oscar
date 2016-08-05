@@ -8,10 +8,10 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:shipping-method-list' %}">{% trans "Shipping methods" %}</a>
+            <a href="{% url 'oscar:dashboard:shipping-method-list' %}">{% trans "Shipping methods" %}</a>
         </li>
         <li>
             {{ method.name }}
@@ -30,7 +30,7 @@
         {% csrf_token %}
         <div class="form-actions">
             <button class="btn btn-danger" type="submit" data-loading-text="{% trans 'Deleting...' %}">{% trans "Delete" %}</button> {% trans "or" %}
-            <a href="{% url 'dashboard:shipping-method-list' %}">{% trans "cancel" %}</a>
+            <a href="{% url 'oscar:dashboard:shipping-method-list' %}">{% trans "cancel" %}</a>
         </div>
     </form>
 {% endblock dashboard_content %}

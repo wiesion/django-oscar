@@ -60,7 +60,7 @@ def get_back_button(context):
 
     # This dict can be extended to link back to other browsing pages
     titles = {
-        'search:search': _('Back to search results'),
+        'oscar:search:search': _('Back to search results'),
     }
     title = titles.get(match.view_name, None)
 

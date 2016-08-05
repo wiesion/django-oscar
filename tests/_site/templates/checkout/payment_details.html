@@ -8,7 +8,7 @@
         <div class="sub-header">
             <h3>{% trans "PayTest" %}</h3>
         </div>
-        <form method="post" action="{% url 'checkout:preview' %}" id="sensible_data">
+        <form method="post" action="{% url 'oscar:checkout:preview' %}" id="sensible_data">
             {% csrf_token %}
          <button type="submit" class="btn btn-large btn-primary">Submit</button>
         </form>

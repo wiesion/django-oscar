@@ -11,10 +11,10 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'oscar:dashboard:index' %}">{% trans "Dashboard" %}</a>
         </li>
         <li>
-            <a href="{% url 'dashboard:reviews-list' %}">{% trans "Reviews" %}</a>
+            <a href="{% url 'oscar:dashboard:reviews-list' %}">{% trans "Reviews" %}</a>
         </li>
         <li class="active">{% blocktrans with title=review.title|truncatechars:30 %}Delete review "{{ title }}"?{% endblocktrans %}</li>
     </ul>
@@ -45,7 +45,7 @@
 
         <div class="form-actions">
             <button class="btn btn-danger" type="submit" data-loading-text="{% trans 'Deleting...' %}">{% trans "Delete" %}</button> {% trans "or" %}
-            <a href="{% url 'dashboard:reviews-list' %}">{% trans "cancel" %}</a>
+            <a href="{% url 'oscar:dashboard:reviews-list' %}">{% trans "cancel" %}</a>
         </div>
     </form>
 {% endblock dashboard_content %}

@@ -26,7 +26,7 @@ The tagline that is displayed next to the shop name and in the browser title.
 ``OSCAR_HOMEPAGE``
 ------------------
 
-Default: ``reverse_lazy('promotions:home')``
+Default: ``reverse_lazy('oscar:promotions:home')``
 
 URL of home page of your site. This value is used for `Home` link in
 navigation and redirection page after logout. Useful if you use a different app
@@ -35,7 +35,7 @@ to serve your homepage.
 ``OSCAR_ACCOUNTS_REDIRECT_URL``
 -------------------------------
 
-Default: ``'customer:profile-view'``
+Default: ``'oscar:customer:profile-view'``
 
 Oscar has a view that gets called any time the user clicks on 'My account' or
 similar. By default it's a dumb redirect to the view configured with this

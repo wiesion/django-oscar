@@ -87,7 +87,7 @@ class AbstractWishList(models.Model):
         verbose_name = _('Wish List')
 
     def get_absolute_url(self):
-        return reverse('customer:wishlists-detail', kwargs={
+        return reverse('oscar:customer:wishlists-detail', kwargs={
             'key': self.key})
 
     def add(self, product):

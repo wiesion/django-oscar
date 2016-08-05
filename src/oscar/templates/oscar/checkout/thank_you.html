@@ -302,7 +302,7 @@
                 <h2>{% trans "Tracking your order" %}</h2>
             </div>
             <p>{% trans "You can track the status of your order" %}</p>
-            <a class="btn btn-primary" href="{% url 'customer:anon-order' order_number=order.number hash=order.verification_hash %}">{% trans "View order status" %}</a>.
+            <a class="btn btn-primary" href="{% url 'oscar:customer:anon-order' order_number=order.number hash=order.verification_hash %}">{% trans "View order status" %}</a>.
         {% endif %}
     {% endblock %}
 

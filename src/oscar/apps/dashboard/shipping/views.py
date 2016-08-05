@@ -28,7 +28,7 @@ class WeightBasedCreateView(generic.CreateView):
             'dashboard/shipping/messages/method_created.html',
             {'method': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
+        return reverse('oscar:dashboard:shipping-method-detail',
                        kwargs={'pk': self.object.pk})
 
 
@@ -58,7 +58,7 @@ class WeightBasedDetailView(generic.CreateView):
             'dashboard/shipping/messages/band_created.html',
             {'band': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
+        return reverse('oscar:dashboard:shipping-method-detail',
                        kwargs={'pk': self.method.pk})
 
 
@@ -73,7 +73,7 @@ class WeightBasedUpdateView(generic.UpdateView):
             'dashboard/shipping/messages/method_updated.html',
             {'method': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
+        return reverse('oscar:dashboard:shipping-method-detail',
                        kwargs={'pk': self.object.pk})
 
 
@@ -102,7 +102,7 @@ class WeightBandUpdateView(generic.UpdateView):
             'dashboard/shipping/messages/band_updated.html',
             {'band': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
+        return reverse('oscar:dashboard:shipping-method-detail',
                        kwargs={'pk': self.method.pk})
 
 
@@ -125,7 +125,7 @@ class WeightBandDeleteView(generic.DeleteView):
             'dashboard/shipping/messages/band_deleted.html',
             {'band': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
+        return reverse('oscar:dashboard:shipping-method-detail',
                        kwargs={'pk': self.method.pk})
 
 
@@ -139,4 +139,4 @@ class WeightBasedDeleteView(generic.DeleteView):
             'dashboard/shipping/messages/method_deleted.html',
             {'method': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-list')
+        return reverse('oscar:dashboard:shipping-method-list')

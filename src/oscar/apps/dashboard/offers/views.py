@@ -242,7 +242,7 @@ class OfferWizardStepView(FormView):
         messages.success(self.request, msg)
 
         return HttpResponseRedirect(reverse(
-            'dashboard:offer-detail', kwargs={'pk': offer.pk}))
+            'oscar:dashboard:offer-detail', kwargs={'pk': offer.pk}))
 
     def get_success_url(self):
         if self.update:
@@ -261,8 +261,8 @@ class OfferMetaDataView(OfferWizardStepView):
     step_name = 'metadata'
     form_class = MetaDataForm
     template_name = 'dashboard/offers/metadata_form.html'
-    url_name = 'dashboard:offer-metadata'
-    success_url_name = 'dashboard:offer-benefit'
+    url_name = 'oscar:dashboard:offer-metadata'
+    success_url_name = 'oscar:dashboard:offer-benefit'
 
     def get_instance(self):
         return self.offer
@@ -275,8 +275,8 @@ class OfferBenefitView(OfferWizardStepView):
     step_name = 'benefit'
     form_class = BenefitForm
     template_name = 'dashboard/offers/benefit_form.html'
-    url_name = 'dashboard:offer-benefit'
-    success_url_name = 'dashboard:offer-condition'
+    url_name = 'oscar:dashboard:offer-benefit'
+    success_url_name = 'oscar:dashboard:offer-condition'
     previous_view = OfferMetaDataView
 
     def get_instance(self):
@@ -291,8 +291,8 @@ class OfferConditionView(OfferWizardStepView):
     step_name = 'condition'
     form_class = ConditionForm
     template_name = 'dashboard/offers/condition_form.html'
-    url_name = 'dashboard:offer-condition'
-    success_url_name = 'dashboard:offer-restrictions'
+    url_name = 'oscar:dashboard:offer-condition'
+    success_url_name = 'oscar:dashboard:offer-restrictions'
     previous_view = OfferBenefitView
 
     def get_instance(self):
@@ -304,7 +304,7 @@ class OfferRestrictionsView(OfferWizardStepView):
     form_class = RestrictionsForm
     template_name = 'dashboard/offers/restrictions_form.html'
     previous_view = OfferConditionView
-    url_name = 'dashboard:offer-restrictions'
+    url_name = 'oscar:dashboard:offer-restrictions'
 
     def form_valid(self, form):
         offer = form.save(commit=False)
@@ -324,7 +324,7 @@ class OfferDeleteView(DeleteView):
 
     def get_success_url(self):
         messages.success(self.request, _("Offer deleted!"))
-        return reverse('dashboard:offer-list')
+        return reverse('oscar:dashboard:offer-list')
 
 
 class OfferDetailView(ListView):
@@ -351,7 +351,7 @@ class OfferDetailView(ListView):
             self.offer.suspend()
             messages.success(self.request, _("Offer suspended"))
         return HttpResponseRedirect(
-            reverse('dashboard:offer-detail', kwargs={'pk': self.offer.pk}))
+            reverse('oscar:dashboard:offer-detail', kwargs={'pk': self.offer.pk}))
 
     def unsuspend(self):
         if not self.offer.is_suspended:
@@ -363,7 +363,7 @@ class OfferDetailView(ListView):
             self.offer.unsuspend()
             messages.success(self.request, _("Offer reinstated"))
         return HttpResponseRedirect(
-            reverse('dashboard:offer-detail', kwargs={'pk': self.offer.pk}))
+            reverse('oscar:dashboard:offer-detail', kwargs={'pk': self.offer.pk}))
 
     def get_queryset(self):
         return self.model.objects.filter(offer_id=self.offer.pk) \

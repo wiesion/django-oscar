@@ -6,7 +6,7 @@
 
 {% block extra_breadcrumbs %}
     <li>
-        <a href="{% url 'customer:order-list' %}">{% trans 'Order history' %}</a>
+        <a href="{% url 'oscar:customer:order-list' %}">{% trans 'Order history' %}</a>
     </li>
 {% endblock %}
 
@@ -33,7 +33,7 @@
                                 </p>
                                 {% iffeature "reviews" %}
                                     {% if product|is_review_permitted:user %}
-                                        <a class="btn btn-default" href="{% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id %}#addreview">{% trans 'Write a review' %}</a>
+                                        <a class="btn btn-default" href="{% url 'oscar:catalogue:reviews-add' product_slug=product.slug product_pk=product.id %}#addreview">{% trans 'Write a review' %}</a>
                                     {% endif %}
                                 {% endiffeature %}
                             {% else %}
@@ -48,7 +48,7 @@
                         <td>{{ line.line_price_before_discounts_incl_tax|currency:order.currency }}</td>
                         <td width="90">
                             {% if product %}
-                                <form id="line_form_{{ line.id }}" action="{% url 'customer:order-line' order_number=order.number line_id=line.id %}" method="POST">
+                                <form id="line_form_{{ line.id }}" action="{% url 'oscar:customer:order-line' order_number=order.number line_id=line.id %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="action" value="reorder" />
                                     <button id="reorder_line_{{ line.id }}" class="btn btn-success" type="submit" data-loading-text="{% trans 'Re-ordering...' %}">{% trans 'Re-order' %}</button>
@@ -132,7 +132,7 @@
     </table>
 
     {% block order_actions %}
-        <form id="order_form_{{ order.id }}" action="{% url 'customer:order' order_number=order.number %}" method="post">
+        <form id="order_form_{{ order.id }}" action="{% url 'oscar:customer:order' order_number=order.number %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="order_id" value="{{ order.id }}" />
             <input type="hidden" name="action" value="reorder" />

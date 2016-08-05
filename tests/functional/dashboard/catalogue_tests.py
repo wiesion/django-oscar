@@ -18,9 +18,9 @@ class TestCatalogueViews(WebTestCase):
     is_staff = True
 
     def test_exist(self):
-        urls = [reverse('dashboard:catalogue-product-list'),
-                reverse('dashboard:catalogue-category-list'),
-                reverse('dashboard:stock-alert-list')]
+        urls = [reverse('oscar:dashboard:catalogue-product-list'),
+                reverse('oscar:dashboard:catalogue-category-list'),
+                reverse('oscar:dashboard:stock-alert-list')]
         for url in urls:
             self.assertIsOk(self.get(url))
     
@@ -31,7 +31,7 @@ class TestCatalogueViews(WebTestCase):
 
         # no value for upc, all results
         page = self.get("%s?upc=" %
-                        reverse('dashboard:catalogue-product-list'))
+                        reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertIn(product1, products_on_page)
@@ -40,7 +40,7 @@ class TestCatalogueViews(WebTestCase):
 
         # filter by upc, one result
         page = self.get("%s?upc=123" %
-                        reverse('dashboard:catalogue-product-list'))
+                        reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertIn(product1, products_on_page)
@@ -49,7 +49,7 @@ class TestCatalogueViews(WebTestCase):
 
         # exact match, one result, no multiple
         page = self.get("%s?upc=12" %
-                        reverse('dashboard:catalogue-product-list'))
+                        reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertNotIn(product1, products_on_page)
@@ -58,7 +58,7 @@ class TestCatalogueViews(WebTestCase):
 
         # part of the upc, one result
         page = self.get("%s?upc=3" %
-                        reverse('dashboard:catalogue-product-list'))
+                        reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertIn(product1, products_on_page)
@@ -67,7 +67,7 @@ class TestCatalogueViews(WebTestCase):
 
         # part of the upc, two results
         page = self.get("%s?upc=2" %
-                        reverse('dashboard:catalogue-product-list'))
+                        reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertIn(product1, products_on_page)
@@ -85,7 +85,7 @@ class TestAStaffUser(WebTestCase):
     def test_can_create_a_product_without_stockrecord(self):
         category = CategoryFactory()
         product_class = ProductClass.objects.create(name="Book")
-        page = self.get(reverse('dashboard:catalogue-product-create',
+        page = self.get(reverse('oscar:dashboard:catalogue-product-create',
                                 args=(product_class.slug,)))
         form = page.form
         form['upc'] = '123456'
@@ -98,7 +98,7 @@ class TestAStaffUser(WebTestCase):
     def test_can_create_and_continue_editing_a_product(self):
         category = CategoryFactory()
         product_class = ProductClass.objects.create(name="Book")
-        page = self.get(reverse('dashboard:catalogue-product-create',
+        page = self.get(reverse('oscar:dashboard:catalogue-product-create',
                                 args=(product_class.slug,)))
         form = page.form
         form['upc'] = '123456'
@@ -113,7 +113,7 @@ class TestAStaffUser(WebTestCase):
         self.assertEqual(Product.objects.count(), 1)
         product = Product.objects.all()[0]
         self.assertEqual(product.stockrecords.all()[0].partner, self.partner)
-        self.assertRedirects(page, reverse('dashboard:catalogue-product',
+        self.assertRedirects(page, reverse('oscar:dashboard:catalogue-product',
                                            kwargs={'pk': product.id}))
 
     def test_can_update_a_product_without_stockrecord(self):
@@ -122,7 +122,7 @@ class TestAStaffUser(WebTestCase):
         product = ProductFactory(stockrecords=[])
 
         page = self.get(
-            reverse('dashboard:catalogue-product',
+            reverse('oscar:dashboard:catalogue-product',
                     kwargs={'pk': product.id})
         )
         form = page.forms[0]
@@ -144,7 +144,7 @@ class TestAStaffUser(WebTestCase):
         category = CategoryFactory()
         attribute = ProductAttributeFactory(required=True)
         product_class = attribute.product_class
-        page = self.get(reverse('dashboard:catalogue-product-create',
+        page = self.get(reverse('oscar:dashboard:catalogue-product-create',
                                 args=(product_class.slug,)))
         form = page.form
         form['upc'] = '123456'
@@ -160,10 +160,10 @@ class TestAStaffUser(WebTestCase):
         category = Category.add_root(name='Test Category')
         ProductCategory.objects.create(category=category, product=product)
 
-        page = self.get(reverse('dashboard:catalogue-product-delete',
+        page = self.get(reverse('oscar:dashboard:catalogue-product-delete',
                                 args=(product.id,))).form.submit()
 
-        self.assertRedirects(page, reverse('dashboard:catalogue-product-list'))
+        self.assertRedirects(page, reverse('oscar:dashboard:catalogue-product-list'))
         self.assertEqual(Product.objects.count(), 0)
         self.assertEqual(StockRecord.objects.count(), 0)
         self.assertEqual(Category.objects.count(), 1)
@@ -174,11 +174,11 @@ class TestAStaffUser(WebTestCase):
         create_product(parent=parent_product)
 
         url = reverse(
-            'dashboard:catalogue-product-delete',
+            'oscar:dashboard:catalogue-product-delete',
             args=(parent_product.id,))
         page = self.get(url).form.submit()
 
-        self.assertRedirects(page, reverse('dashboard:catalogue-product-list'))
+        self.assertRedirects(page, reverse('oscar:dashboard:catalogue-product-list'))
         self.assertEqual(Product.objects.count(), 0)
 
     def test_can_delete_a_child_product(self):
@@ -186,19 +186,19 @@ class TestAStaffUser(WebTestCase):
         child_product = create_product(parent=parent_product)
 
         url = reverse(
-            'dashboard:catalogue-product-delete',
+            'oscar:dashboard:catalogue-product-delete',
             args=(child_product.id,))
         page = self.get(url).form.submit()
 
         expected_url = reverse(
-            'dashboard:catalogue-product', kwargs={'pk': parent_product.pk})
+            'oscar:dashboard:catalogue-product', kwargs={'pk': parent_product.pk})
         self.assertRedirects(page, expected_url)
         self.assertEqual(Product.objects.count(), 1)
 
     def test_can_list_her_products(self):
         product1 = create_product(partner_users=[self.user, ])
         product2 = create_product(partner_name="sneaky", partner_users=[])
-        page = self.get(reverse('dashboard:catalogue-product-list'))
+        page = self.get(reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertIn(product1, products_on_page)
@@ -207,7 +207,7 @@ class TestAStaffUser(WebTestCase):
     def test_can_create_a_child_product(self):
         parent_product = create_product(structure='parent')
         url = reverse(
-            'dashboard:catalogue-product-create-child',
+            'oscar:dashboard:catalogue-product-create-child',
             kwargs={'parent_pk': parent_product.pk})
         form = self.get(url).form
         form.submit()
@@ -219,10 +219,10 @@ class TestAStaffUser(WebTestCase):
         invalid_parent = create_product(partner_users=[self.user])
         self.assertFalse(invalid_parent.can_be_parent())
         url = reverse(
-            'dashboard:catalogue-product-create-child',
+            'oscar:dashboard:catalogue-product-create-child',
             kwargs={'parent_pk': invalid_parent.pk})
         self.assertRedirects(
-            self.get(url), reverse('dashboard:catalogue-product-list'))
+            self.get(url), reverse('oscar:dashboard:catalogue-product-list'))
 
 
 class TestANonStaffUser(TestAStaffUser):
@@ -238,7 +238,7 @@ class TestANonStaffUser(TestAStaffUser):
     def test_can_list_her_products(self):
         product1 = create_product(partner_name="A", partner_users=[self.user])
         product2 = create_product(partner_name="B", partner_users=[])
-        page = self.get(reverse('dashboard:catalogue-product-list'))
+        page = self.get(reverse('oscar:dashboard:catalogue-product-list'))
         products_on_page = [row.record for row
                             in page.context['products'].page.object_list]
         self.assertIn(product1, products_on_page)
@@ -247,7 +247,7 @@ class TestANonStaffUser(TestAStaffUser):
     def test_cant_create_a_child_product(self):
         parent_product = create_product(structure='parent')
         url = reverse(
-            'dashboard:catalogue-product-create-child',
+            'oscar:dashboard:catalogue-product-create-child',
             kwargs={'parent_pk': parent_product.pk})
         response = self.get(url, status='*')
         self.assertEqual(http_client.FORBIDDEN, response.status_code)

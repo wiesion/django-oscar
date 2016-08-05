@@ -20,9 +20,9 @@ class RecordClickView(RedirectView):
         try:
             prom = self.model.objects.get(pk=kwargs['pk'])
         except self.model.DoesNotExist:
-            return reverse('promotions:home')
+            return reverse('oscar:promotions:home')
 
         if prom.promotion.has_link:
             prom.record_click()
             return prom.link_url
-        return reverse('promotions:home')
+        return reverse('oscar:promotions:home')

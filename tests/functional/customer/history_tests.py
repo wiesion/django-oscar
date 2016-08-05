@@ -58,6 +58,6 @@ class TestAUserWhoLogsOut(TestCase):
         response = self.client.get(self.product.get_absolute_url())
         self.assertTrue(COOKIE_NAME in response.cookies)
 
-        response = self.client.get(reverse('customer:logout'))
+        response = self.client.get(reverse('oscar:customer:logout'))
         self.assertTrue((COOKIE_NAME not in response.cookies)
                         or not self.client.cookies['oscar_recently_viewed_products'].coded_value)
