@@ -149,7 +149,10 @@ TEMPLATES = [
                 'oscar.core.context_processors.metadata',
             ],
             'debug': DEBUG,
-        }
+        },
+        'libraries': {
+            'sorl_thumbnail': 'sorl.thumbnail.templatetags.thumbnail',
+        },
     }
 ]
 
