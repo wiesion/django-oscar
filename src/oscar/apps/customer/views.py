@@ -67,6 +67,8 @@ class AccountRegistrationView(RegisterUserMixin, generic.FormView):
     redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
+        if not getattr(settings, 'OSCAR_ALLOW_REGISTRATION', True):
+            return http.HttpResponseForbidden(_("Shop does not allow autonomous registration to new users"))
         if request.user.is_authenticated():
             return redirect(settings.LOGIN_REDIRECT_URL)
         return super(AccountRegistrationView, self).get(
@@ -114,6 +116,7 @@ class AccountAuthView(RegisterUserMixin, generic.TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(AccountAuthView, self).get_context_data(*args, **kwargs)
+        ctx['allow_registration'] = getattr(settings, 'OSCAR_ALLOW_REGISTRATION', True)
         if 'login_form' not in kwargs:
             ctx['login_form'] = self.get_login_form()
         if 'registration_form' not in kwargs:
@@ -125,6 +128,8 @@ class AccountAuthView(RegisterUserMixin, generic.TemplateView):
         if u'login_submit' in request.POST:
             return self.validate_login_form()
         elif u'registration_submit' in request.POST:
+            if not getattr(settings, 'OSCAR_ALLOW_REGISTRATION', True):
+                return http.HttpResponseForbidden(_("Shop does not allow autonomous registration to new users"))
             return self.validate_registration_form()
         return http.HttpResponseBadRequest()
 
@@ -210,6 +215,8 @@ class AccountAuthView(RegisterUserMixin, generic.TemplateView):
         return kwargs
 
     def validate_registration_form(self):
+        if not getattr(settings, 'OSCAR_ALLOW_REGISTRATION', True):
+            return http.HttpResponseForbidden(_("Shop does not allow autonomous registration to new users"))
         form = self.get_registration_form(bind_data=True)
         if form.is_valid():
             self.register_user(form)

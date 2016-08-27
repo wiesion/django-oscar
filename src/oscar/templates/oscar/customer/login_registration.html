@@ -10,7 +10,13 @@
         <li>
             <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
         </li>
-        <li class="active">{% trans 'Login or register' %}</li>
+        <li class="active">
+        {% if allow_registration %}
+            {% trans 'Login or register' %}
+        {% else %}
+            {% trans 'Login' %}
+        {% endif %}
+        </li>
     </ul>
 {% endblock %}
 
@@ -29,6 +35,7 @@
                 <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-primary" data-loading-text="{% trans "Logging in..." %}">{% trans 'Log In' %}</button>
             </form>
         </div>
+        {% if allow_registration %}
         <div class="col-sm-6 register_form">
             <form id="register_form" action="{{ request.get_full_path }}" method="post" class="well">
                 <h2>{% trans 'Register' %}</h2>
@@ -37,6 +44,7 @@
                 <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-primary" data-loading-text="{% trans 'Registering...' %}">{% trans 'Register' %}</button>
             </form>
         </div>
+        {% endif %}
     </div>
 
 {% endblock content %}

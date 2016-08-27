@@ -12,7 +12,7 @@ class Application(object):
     app's views and permissions.
     """
     #: Namespace name
-    name = 'oscar'
+    name = None
 
     login_url = None
 
@@ -114,4 +114,4 @@ class Application(object):
 
 
 class DashboardApplication(Application):
-    login_url = reverse_lazy('dashboard:login')
+    login_url = reverse_lazy('oscar:dashboard:login')

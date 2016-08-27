@@ -284,7 +284,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'oscar:catalogue:index'
 APPEND_SLASH = True
 
 # ====================

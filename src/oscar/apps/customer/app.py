@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.views import generic
@@ -71,10 +72,9 @@ class CustomerApplication(Application):
 
     def get_urls(self):
         urls = [
-            # Login, logout and register doesn't require login
+            # Login and logout doesn't require login
             url(r'^login/$', self.login_view.as_view(), name='login'),
             url(r'^logout/$', self.logout_view.as_view(), name='logout'),
-            url(r'^register/$', self.register_view.as_view(), name='register'),
             url(r'^$', login_required(self.summary_view.as_view()),
                 name='summary'),
             url(r'^change-password/$',
@@ -204,6 +204,12 @@ class CustomerApplication(Application):
                 login_required(self.wishlists_move_product_to_another_view
                                .as_view()),
                 name='wishlists-move-product-to-another')]
+
+        # Add registration urls only if registration is allowed
+        if getattr(settings, 'OSCAR_ALLOW_REGISTRATION', True):
+            urls += [
+                url(r'^register/$', self.register_view.as_view(), name='register'),
+            ]
 
         return self.post_process_urls(urls)
 

@@ -65,6 +65,7 @@ OSCAR_PROMOTION_POSITIONS = (('page', 'Page'),
                              ('left', 'Left-hand sidebar'))
 
 # Reviews
+OSCAR_REVIEWS_ENABLED = True
 OSCAR_ALLOW_ANON_REVIEWS = True
 OSCAR_MODERATE_REVIEWS = False
 
@@ -80,6 +81,7 @@ OSCAR_ACCOUNTS_REDIRECT_URL = 'oscar:customer:profile-view'
 OSCAR_EAGER_ALERTS = True
 
 # Registration
+OSCAR_ALLOW_REGISTRATION = True
 OSCAR_SEND_REGISTRATION_EMAIL = True
 OSCAR_FROM_EMAIL = 'oscar@example.com'
 
